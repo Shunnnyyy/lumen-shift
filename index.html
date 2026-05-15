@@ -14,6 +14,7 @@
     <nav class="site-nav" aria-label="Project sections">
       <a href="#simulator">Simulator</a>
       <a href="#photo-study">Photography</a>
+      <a href="#map-study">Map</a>
       <a href="#logic">Logic</a>
       <a href="#progression">Progression</a>
       <a href="#prototype">Prototype</a>
@@ -162,6 +163,34 @@
         </div>
       </section>
 
+      <section class="map-study reveal" id="map-study" aria-labelledby="map-title">
+        <div class="section-heading">
+          <p class="kicker">Map photography</p>
+          <h2 id="map-title">Toronto Night Light Map</h2>
+        </div>
+
+        <div class="map-layout">
+          <div class="map-panel" aria-label="Stylized Toronto night light map">
+            <button class="map-pin is-active" type="button" data-map="residential" style="--x: 24%; --y: 42%">
+              <span>Residential</span>
+            </button>
+            <button class="map-pin" type="button" data-map="transit" style="--x: 58%; --y: 58%">
+              <span>Transit</span>
+            </button>
+            <button class="map-pin" type="button" data-map="commercial" style="--x: 72%; --y: 28%">
+              <span>Commercial</span>
+            </button>
+          </div>
+
+          <div class="map-reading">
+            <span id="mapZone">Residential street</span>
+            <h3 id="mapFinding">Low movement, fixed brightness</h3>
+            <p id="mapNote">Map photography turns individual night images into a spatial argument: different urban zones need different lighting logic instead of one citywide brightness habit.</p>
+            <a href="#logic">Translate map into system logic</a>
+          </div>
+        </div>
+      </section>
+
       <section class="logic reveal" id="logic" aria-labelledby="logic-title">
         <div class="section-heading">
           <p class="kicker">System logic</p>
@@ -242,6 +271,24 @@
             <span>Identity</span>
             <strong>Photography + EE + urban systems</strong>
           </div>
+        </div>
+
+        <div class="project-jumps" aria-label="Connected project links">
+          <a class="jump-card jump-card--archive" href="https://power-in-practice.vercel.app" target="_blank" rel="noreferrer">
+            <span>Open archive</span>
+            <strong>Power in Practice</strong>
+            <small>Research archive / visual systems</small>
+          </a>
+          <a class="jump-card jump-card--dashboard" href="https://smart-energy-dashboard.vercel.app" target="_blank" rel="noreferrer">
+            <span>Open dashboard</span>
+            <strong>SmartEnergy</strong>
+            <small>Home energy data / Ontario TOU</small>
+          </a>
+          <a class="jump-card jump-card--lumen" href="https://lumen-shift.vercel.app" target="_blank" rel="noreferrer">
+            <span>Open solution</span>
+            <strong>Lumen Shift</strong>
+            <small>Adaptive urban lighting system</small>
+          </a>
         </div>
       </section>
 

@@ -20,6 +20,10 @@ const photoButtons = document.querySelectorAll('[data-photo]');
 const photoSignal = document.querySelector('#photoSignal');
 const photoVariable = document.querySelector('#photoVariable');
 const photoExplanation = document.querySelector('#photoExplanation');
+const mapButtons = document.querySelectorAll('[data-map]');
+const mapZone = document.querySelector('#mapZone');
+const mapFinding = document.querySelector('#mapFinding');
+const mapNote = document.querySelector('#mapNote');
 
 let width = 0;
 let height = 0;
@@ -67,6 +71,30 @@ const photoCopy = {
     variable: 'Engineering variable: compare public lighting with surrounding load',
     explanation:
       'The photograph becomes a map of visible electricity use, linking SmartEnergy-style measurement to a public-space lighting decision.',
+    scenario: 'event',
+  },
+};
+
+const mapCopy = {
+  residential: {
+    zone: 'Residential street',
+    finding: 'Low movement, fixed brightness',
+    note:
+      'Residential night photos often show quiet sidewalks with lamps still running at a steady level. This supports a lower base dim level plus motion-triggered ramping.',
+    scenario: 'quiet',
+  },
+  transit: {
+    zone: 'Transit stop',
+    finding: 'Short bursts of people and vehicles',
+    note:
+      'Transit photography shows intermittent demand: a stop can be empty for minutes, then suddenly active. The system should brighten quickly and fade slowly.',
+    scenario: 'commute',
+  },
+  commercial: {
+    zone: 'Commercial corridor',
+    finding: 'High ambient light and overlapping loads',
+    note:
+      'Commercial streets combine signs, windows, traffic, and public lighting. The map helps separate safety lighting from already-bright background energy use.',
     scenario: 'event',
   },
 };
@@ -251,6 +279,17 @@ photoButtons.forEach((button) => {
     photoVariable.textContent = photo.variable;
     photoExplanation.textContent = photo.explanation;
     applyScenario(photo.scenario);
+  });
+});
+
+mapButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    const reading = mapCopy[button.dataset.map];
+    mapButtons.forEach((item) => item.classList.toggle('is-active', item === button));
+    mapZone.textContent = reading.zone;
+    mapFinding.textContent = reading.finding;
+    mapNote.textContent = reading.note;
+    applyScenario(reading.scenario);
   });
 });
 

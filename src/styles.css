@@ -188,6 +188,7 @@ h1 {
 .simulator,
 .story,
 .photo-study,
+.map-study,
 .logic,
 .progression,
 .blueprint,
@@ -616,6 +617,171 @@ article p {
     #101010;
 }
 
+.map-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+  gap: 1px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+}
+
+.map-panel {
+  position: relative;
+  min-height: 560px;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(8, 8, 8, 0.1) 1px, transparent 1px),
+    linear-gradient(rgba(8, 8, 8, 0.1) 1px, transparent 1px),
+    linear-gradient(31deg, transparent 0 42%, rgba(8, 8, 8, 0.16) 42% 43%, transparent 43% 100%),
+    linear-gradient(144deg, transparent 0 52%, rgba(8, 8, 8, 0.18) 52% 53%, transparent 53% 100%),
+    var(--paper);
+  background-size: 46px 46px, 46px 46px, 100% 100%, 100% 100%, 100% 100%;
+}
+
+.map-panel::before,
+.map-panel::after {
+  content: "";
+  position: absolute;
+  inset: 12%;
+  border: 1px solid rgba(8, 8, 8, 0.22);
+  transform: rotate(-10deg);
+}
+
+.map-panel::after {
+  inset: 22% 8% 18% 18%;
+  transform: rotate(18deg);
+  border-style: dashed;
+}
+
+.map-pin {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 112px;
+  height: 112px;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  background: rgba(247, 247, 242, 0.86);
+  color: var(--ink);
+  font-size: 0.68rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition:
+    background 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.map-pin:hover,
+.map-pin:focus-visible,
+.map-pin.is-active {
+  background: var(--ink);
+  color: var(--paper);
+  outline: 0;
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.map-reading {
+  display: grid;
+  align-content: end;
+  min-height: 560px;
+  padding: 28px;
+  background: rgba(247, 247, 242, 0.96);
+}
+
+.map-reading span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.map-reading h3 {
+  margin: 32px 0 16px;
+  font-size: clamp(2rem, 4vw, 4.4rem);
+  line-height: 0.94;
+}
+
+.map-reading p {
+  color: rgba(8, 8, 8, 0.7);
+  line-height: 1.65;
+}
+
+.map-reading a {
+  width: fit-content;
+  margin-top: 24px;
+  padding: 14px 16px;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.project-jumps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 1px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+}
+
+.jump-card {
+  min-height: 220px;
+  display: grid;
+  align-content: space-between;
+  padding: 22px;
+  transition:
+    transform 160ms ease,
+    filter 160ms ease;
+}
+
+.jump-card:hover,
+.jump-card:focus-visible {
+  transform: translateY(-6px);
+  filter: contrast(1.08);
+  outline: 0;
+}
+
+.jump-card span,
+.jump-card small {
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.jump-card strong {
+  display: block;
+  margin: 42px 0 12px;
+  font-size: clamp(1.6rem, 3vw, 3rem);
+  line-height: 0.95;
+}
+
+.jump-card--archive {
+  background:
+    linear-gradient(rgba(127, 244, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(127, 244, 255, 0.035) 1px, transparent 1px),
+    #06101b;
+  background-size: 28px 28px;
+  color: #edf7ff;
+}
+
+.jump-card--dashboard {
+  border-radius: 0 8px 8px 0;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.14), rgba(34, 197, 94, 0.1)), #fff;
+  color: #0f172a;
+}
+
+.jump-card--lumen {
+  background: var(--paper);
+  color: var(--ink);
+}
+
 .photo-link {
   grid-template-columns: minmax(190px, 0.55fr) minmax(220px, 0.8fr) minmax(0, 1fr);
   margin-top: 1px;
@@ -687,12 +853,19 @@ article p {
   .module-grid,
   .logic-layout,
   .photo-board,
+  .map-layout,
   .photo-link,
   .insight-panel,
   .connection-map,
+  .project-jumps,
   .progression-grid,
   .prototype-grid {
     grid-template-columns: 1fr;
+  }
+
+  .map-panel,
+  .map-reading {
+    min-height: 420px;
   }
 
   .logic-diagram {
