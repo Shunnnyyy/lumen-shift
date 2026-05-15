@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Lumen Shift is an interactive adaptive urban lighting concept for sustainable cities."
+    />
+    <title>Lumen Shift | Adaptive Urban Lighting</title>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero" aria-labelledby="project-title">
+        <div class="hero__copy">
+          <p class="kicker">Adaptive urban lighting system</p>
+          <h1 id="project-title">Lumen Shift</h1>
+          <p class="lead">
+            A monochrome study of how city lights can dim with quiet streets,
+            wake with movement, and turn urban observation into electrical
+            engineering.
+          </p>
+        </div>
+
+        <div class="hero__meta" aria-label="Project summary">
+          <span>Photography</span>
+          <span>Urban Systems</span>
+          <span>Energy Modeling</span>
+        </div>
+      </section>
+
+      <section class="simulator" aria-labelledby="sim-title">
+        <div class="section-heading">
+          <p class="kicker">Live prototype</p>
+          <h2 id="sim-title">Street Brightness Simulator</h2>
+        </div>
+
+        <div class="stage">
+          <canvas id="cityCanvas" aria-label="Animated street lighting simulation"></canvas>
+          <div class="stats" aria-label="Lighting system readings">
+            <div>
+              <span>Energy saved</span>
+              <strong id="energySaved">42%</strong>
+            </div>
+            <div>
+              <span>Street activity</span>
+              <strong id="activityLabel">Moderate</strong>
+            </div>
+            <div>
+              <span>Avg brightness</span>
+              <strong id="brightnessLabel">58%</strong>
+            </div>
+          </div>
+        </div>
+
+        <form class="controls" aria-label="Lighting controls">
+          <label>
+            <span>Hour</span>
+            <input id="hourControl" type="range" min="0" max="23" value="2" />
+            <output id="hourValue">02:00</output>
+          </label>
+          <label>
+            <span>Street flow</span>
+            <input id="flowControl" type="range" min="0" max="100" value="38" />
+            <output id="flowValue">38%</output>
+          </label>
+          <label>
+            <span>Base dim level</span>
+            <input id="dimControl" type="range" min="10" max="70" value="28" />
+            <output id="dimValue">28%</output>
+          </label>
+          <button class="mode-button" id="pulseButton" type="button">
+            Trigger movement
+          </button>
+        </form>
+      </section>
+
+      <section class="story" aria-labelledby="story-title">
+        <div class="section-heading">
+          <p class="kicker">Portfolio narrative</p>
+          <h2 id="story-title">From Seeing Light to Engineering It</h2>
+        </div>
+
+        <div class="timeline">
+          <article>
+            <span>01</span>
+            <h3>Urban observation</h3>
+            <p>Night photography becomes a way to notice wasted brightness, empty streets, and hidden infrastructure.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Power in practice</h3>
+            <p>Energy use is translated into measurable variables: time, brightness, traffic, and estimated consumption.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Adaptive response</h3>
+            <p>Sensors and dimming logic create a city system that is quieter, safer, and more efficient.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="blueprint" aria-labelledby="blueprint-title">
+        <div class="section-heading">
+          <p class="kicker">Build structure</p>
+          <h2 id="blueprint-title">Project Modules</h2>
+        </div>
+
+        <div class="module-grid">
+          <article>
+            <h3>Web simulation</h3>
+            <p>Interactive canvas scene, street-flow controls, and estimated energy savings.</p>
+          </article>
+          <article>
+            <h3>Arduino prototype</h3>
+            <p>PIR or ultrasonic sensor input connected to PWM LED brightness control.</p>
+          </article>
+          <article>
+            <h3>Data dashboard</h3>
+            <p>Daily activity curves, baseline comparisons, and sustainability metrics.</p>
+          </article>
+          <article>
+            <h3>Photo essay</h3>
+            <p>Black-and-white city images paired with engineering notes and design choices.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
