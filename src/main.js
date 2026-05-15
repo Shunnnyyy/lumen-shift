@@ -31,6 +31,7 @@ let movementPulse = 0;
 let pointerX = 0.5;
 let pointerY = 0.5;
 let activeScenario = 'quiet';
+let burstId = 0;
 
 const lamps = Array.from({ length: 9 }, (_, index) => ({
   x: 0.08 + index * 0.105,
@@ -44,6 +45,8 @@ const particles = Array.from({ length: 26 }, () => ({
   size: 1.5 + Math.random() * 2.5,
 }));
 
+const sparks = [];
+
 const scenarios = {
   quiet: { hour: 2, flow: 16, dim: 22, pulse: 0.2 },
   commute: { hour: 18, flow: 64, dim: 34, pulse: 0.58 },
@@ -54,23 +57,23 @@ const scenarios = {
 const photoCopy = {
   street: {
     signal: 'Observation: empty street, high fixed brightness',
-    variable: 'Engineering variable: lower base dim level when activity is low',
+    variable: 'Question: could the base brightness be lower when activity is low?',
     explanation:
-      'This connects your photography directly to the EE idea: the image is not just aesthetic, it identifies a mismatch between light output and real street demand.',
+      'The photograph becomes a prompt instead of proof. It asks whether a quiet block needs the same brightness as an active one.',
     scenario: 'quiet',
   },
   motion: {
     signal: 'Observation: crosswalks and vehicles create short bursts of demand',
-    variable: 'Engineering variable: motion-triggered brightness ramp',
+    variable: 'Question: what should light do when motion enters the frame?',
     explanation:
       'Movement becomes a control signal. The system keeps the street calm when empty, then raises brightness when people or cars enter the frame.',
     scenario: 'commute',
   },
   windows: {
     signal: 'Observation: windows, signs, and lamps form an energy pattern',
-    variable: 'Engineering variable: compare public lighting with surrounding load',
+    variable: 'Question: where does public light overlap with private light?',
     explanation:
-      'The photograph becomes a map of visible electricity use, linking SmartEnergy-style measurement to a public-space lighting decision.',
+      'The photograph becomes a map of visible electricity use, connecting the dashboard-style numbers with a real public street.',
     scenario: 'event',
   },
 };
@@ -167,6 +170,23 @@ function drawGlow(x, y, radius, alpha) {
   ctx.fill();
 }
 
+function createSparkBurst(x, y) {
+  const count = 20;
+  for (let index = 0; index < count; index += 1) {
+    const angle = (Math.PI * 2 * index) / count + Math.random() * 0.24;
+    sparks.push({
+      id: burstId,
+      x,
+      y,
+      vx: Math.cos(angle) * (1.8 + Math.random() * 3.8),
+      vy: Math.sin(angle) * (1.8 + Math.random() * 3.8),
+      life: 1,
+      bend: Math.random() * 0.8 - 0.4,
+    });
+  }
+  burstId += 1;
+}
+
 function drawScene(time) {
   const state = getState();
   ctx.clearRect(0, 0, width, height);
@@ -245,6 +265,22 @@ function drawScene(time) {
     ctx.fill();
   });
 
+  for (let index = sparks.length - 1; index >= 0; index -= 1) {
+    const spark = sparks[index];
+    const nextX = spark.x + spark.vx;
+    const nextY = spark.y + spark.vy + Math.sin(time * 0.014 + spark.id) * spark.bend;
+    ctx.strokeStyle = `rgba(0,0,0,${spark.life * 0.72})`;
+    ctx.lineWidth = 1 + spark.life * 1.8;
+    ctx.beginPath();
+    ctx.moveTo(spark.x, spark.y);
+    ctx.lineTo(nextX, nextY);
+    ctx.stroke();
+    spark.x = nextX;
+    spark.y = nextY;
+    spark.life *= 0.91;
+    if (spark.life < 0.05) sparks.splice(index, 1);
+  }
+
   const cursorGlow = Math.max(0.08, movementPulse) * 0.2;
   drawGlow(pointerX * width, pointerY * height, height * 0.22, cursorGlow);
 
@@ -263,6 +299,7 @@ function drawScene(time) {
 
 pulseButton.addEventListener('click', () => {
   movementPulse = 1;
+  createSparkBurst(pointerX * width, pointerY * height);
 });
 
 scenarioButtons.forEach((button) => {
@@ -316,6 +353,14 @@ canvas.addEventListener('pointermove', (event) => {
   pointerX = (event.clientX - rect.left) / rect.width;
   pointerY = (event.clientY - rect.top) / rect.height;
   movementPulse = Math.max(movementPulse, 0.42);
+});
+
+canvas.addEventListener('pointerdown', (event) => {
+  const rect = canvas.getBoundingClientRect();
+  pointerX = (event.clientX - rect.left) / rect.width;
+  pointerY = (event.clientY - rect.top) / rect.height;
+  movementPulse = 1;
+  createSparkBurst(pointerX * width, pointerY * height);
 });
 
 window.addEventListener('resize', resize);
