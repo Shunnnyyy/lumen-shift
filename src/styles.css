@@ -192,6 +192,7 @@ h1 {
 .logic,
 .progression,
 .blueprint,
+.sources,
 .prototype {
   padding: 72px 0;
   border-bottom: 1px solid var(--line);
@@ -836,6 +837,61 @@ article p {
   line-height: 1.05;
 }
 
+.source-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+}
+
+.source-grid a {
+  min-height: 260px;
+  display: grid;
+  align-content: space-between;
+  padding: 22px;
+  background: rgba(247, 247, 242, 0.96);
+  transition:
+    background 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.source-grid a:hover,
+.source-grid a:focus-visible {
+  background: var(--ink);
+  color: var(--paper);
+  outline: 0;
+  transform: translateY(-4px);
+}
+
+.source-grid span {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.source-grid strong {
+  display: block;
+  margin-top: 42px;
+  font-size: clamp(1.3rem, 2.4vw, 2.4rem);
+  line-height: 1;
+}
+
+.source-grid p {
+  margin: 14px 0 0;
+  color: rgba(8, 8, 8, 0.68);
+  line-height: 1.55;
+}
+
+.source-grid a:hover span,
+.source-grid a:hover p,
+.source-grid a:focus-visible span,
+.source-grid a:focus-visible p {
+  color: rgba(247, 247, 242, 0.72);
+}
+
 @media (max-width: 820px) {
   .site-nav {
     position: sticky;
@@ -872,6 +928,7 @@ article p {
   .insight-panel,
   .connection-map,
   .project-jumps,
+  .source-grid,
   .progression-grid,
   .prototype-grid {
     grid-template-columns: 1fr;
