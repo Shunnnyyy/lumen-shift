@@ -28,9 +28,64 @@ body {
   background-size: 34px 34px, 34px 34px, 100% 100%, 100% 100%;
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 button,
 input {
   font: inherit;
+}
+
+button {
+  border-radius: 0;
+}
+
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  width: 100%;
+  height: 3px;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.site-nav {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 40;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 1px;
+  max-width: min(620px, calc(100% - 36px));
+  border: 1px solid var(--ink);
+  background: var(--ink);
+}
+
+.site-nav a {
+  display: block;
+  padding: 10px 12px;
+  background: rgba(247, 247, 242, 0.92);
+  color: var(--ink);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  transition:
+    background 160ms ease,
+    color 160ms ease;
+}
+
+.site-nav a:hover,
+.site-nav a:focus-visible {
+  background: var(--ink);
+  color: var(--paper);
+  outline: 0;
 }
 
 .shell {
@@ -95,6 +150,41 @@ h1 {
   padding: 10px 12px;
 }
 
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1px;
+  width: fit-content;
+  margin-top: 28px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+}
+
+.hero__actions a {
+  padding: 14px 18px;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 800;
+  text-transform: uppercase;
+  transition:
+    background 160ms ease,
+    color 160ms ease;
+}
+
+.hero__actions a:nth-child(2),
+.hero__actions a:hover,
+.hero__actions a:focus-visible {
+  background: var(--paper);
+  color: var(--ink);
+  outline: 0;
+}
+
+.hero__actions a:nth-child(2):hover,
+.hero__actions a:nth-child(2):focus-visible {
+  background: var(--ink);
+  color: var(--paper);
+}
+
 .simulator,
 .story,
 .photo-study,
@@ -121,6 +211,49 @@ h1 {
   letter-spacing: 0;
 }
 
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 520ms ease,
+    transform 520ms ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scenario-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin-bottom: 1px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+}
+
+.scenario-strip button {
+  min-height: 72px;
+  border: 0;
+  background: rgba(247, 247, 242, 0.96);
+  color: var(--ink);
+  font-weight: 800;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background 160ms ease,
+    color 160ms ease;
+}
+
+.scenario-strip button:hover,
+.scenario-strip button:focus-visible,
+.scenario-strip button.is-active {
+  background: var(--ink);
+  color: var(--paper);
+  outline: 0;
+}
+
 .stage {
   position: relative;
   overflow: hidden;
@@ -142,7 +275,7 @@ canvas {
   bottom: 18px;
   left: 18px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   border: 1px solid var(--ink);
   background: rgba(247, 247, 242, 0.9);
   backdrop-filter: blur(14px);
@@ -230,6 +363,41 @@ output {
 
 .mode-button:active {
   transform: scale(0.985);
+}
+
+.insight-panel,
+.photo-link {
+  display: grid;
+  grid-template-columns: minmax(160px, 0.45fr) minmax(0, 1fr);
+  gap: 1px;
+  margin-top: 1px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+}
+
+.insight-panel span,
+.photo-link span,
+.photo-link strong,
+.insight-panel p,
+.photo-link p {
+  margin: 0;
+  padding: 18px;
+  background: rgba(247, 247, 242, 0.96);
+}
+
+.insight-panel span,
+.photo-link span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.insight-panel p,
+.photo-link p,
+.photo-link strong {
+  color: var(--ink);
+  line-height: 1.55;
 }
 
 .timeline,
@@ -376,10 +544,52 @@ article p {
   display: grid;
   align-content: start;
   gap: 18px;
+  width: 100%;
+  padding: 24px;
+  border: 0;
+  background: rgba(247, 247, 242, 0.96);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    background 180ms ease;
 }
 
 .photo-frame--wide {
   min-height: 520px;
+}
+
+.photo-frame span {
+  display: block;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.photo-frame h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.4rem;
+}
+
+.photo-frame p {
+  margin: 0;
+  color: rgba(8, 8, 8, 0.68);
+  line-height: 1.55;
+}
+
+.photo-frame:hover,
+.photo-frame:focus-visible,
+.photo-frame.is-active {
+  background: #fff;
+  outline: 0;
+}
+
+.photo-frame:hover,
+.photo-frame:focus-visible {
+  transform: translateY(-6px);
 }
 
 .photo-placeholder {
@@ -406,7 +616,61 @@ article p {
     #101010;
 }
 
+.photo-link {
+  grid-template-columns: minmax(190px, 0.55fr) minmax(220px, 0.8fr) minmax(0, 1fr);
+  margin-top: 1px;
+}
+
+.photo-link strong {
+  display: block;
+  font-size: 1.1rem;
+}
+
+.connection-map {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 1px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+}
+
+.connection-map div {
+  min-height: 180px;
+  padding: 20px;
+  background: rgba(247, 247, 242, 0.96);
+}
+
+.connection-map span {
+  display: block;
+  margin-bottom: 44px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.connection-map strong {
+  display: block;
+  font-size: clamp(1.25rem, 2vw, 2rem);
+  line-height: 1.05;
+}
+
 @media (max-width: 820px) {
+  .site-nav {
+    position: sticky;
+    top: 0;
+    right: auto;
+    margin: 0;
+    border-left: 0;
+    border-right: 0;
+  }
+
+  .site-nav a {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+
   .shell {
     width: min(100% - 22px, 1180px);
   }
@@ -417,11 +681,15 @@ article p {
   }
 
   .section-heading,
+  .scenario-strip,
   .controls,
   .timeline,
   .module-grid,
   .logic-layout,
   .photo-board,
+  .photo-link,
+  .insight-panel,
+  .connection-map,
   .progression-grid,
   .prototype-grid {
     grid-template-columns: 1fr;
@@ -443,7 +711,7 @@ article p {
 
   .stats div {
     border-right: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    border-bottom: 1px solid var(--line);
   }
 
   .stats div:last-child {

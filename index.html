@@ -10,6 +10,14 @@
     <title>Lumen Shift | Adaptive Urban Lighting</title>
   </head>
   <body>
+    <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+    <nav class="site-nav" aria-label="Project sections">
+      <a href="#simulator">Simulator</a>
+      <a href="#photo-study">Photography</a>
+      <a href="#logic">Logic</a>
+      <a href="#progression">Progression</a>
+      <a href="#prototype">Prototype</a>
+    </nav>
     <main class="shell">
       <section class="hero" aria-labelledby="project-title">
         <div class="hero__copy">
@@ -20,6 +28,10 @@
             wake with movement, and turn urban observation into electrical
             engineering.
           </p>
+          <div class="hero__actions" aria-label="Primary actions">
+            <a href="#simulator">Run simulation</a>
+            <a href="#photo-study">Open photo study</a>
+          </div>
         </div>
 
         <div class="hero__meta" aria-label="Project summary">
@@ -29,10 +41,17 @@
         </div>
       </section>
 
-      <section class="simulator" aria-labelledby="sim-title">
+      <section class="simulator reveal" id="simulator" aria-labelledby="sim-title">
         <div class="section-heading">
           <p class="kicker">Live prototype</p>
           <h2 id="sim-title">Street Brightness Simulator</h2>
+        </div>
+
+        <div class="scenario-strip" aria-label="Simulation presets">
+          <button type="button" data-scenario="quiet">Quiet 02:00</button>
+          <button type="button" data-scenario="commute">Evening commute</button>
+          <button type="button" data-scenario="event">Event surge</button>
+          <button type="button" data-scenario="daylight">Daylight mode</button>
         </div>
 
         <div class="stage">
@@ -49,6 +68,10 @@
             <div>
               <span>Avg brightness</span>
               <strong id="brightnessLabel">58%</strong>
+            </div>
+            <div>
+              <span>Estimated load</span>
+              <strong id="loadLabel">0.55 kW</strong>
             </div>
           </div>
         </div>
@@ -73,9 +96,14 @@
             Trigger movement
           </button>
         </form>
+
+        <div class="insight-panel" aria-live="polite">
+          <span>Current reading</span>
+          <p id="insightText">The street is moderately active, so the system raises brightness above the safe base level while still saving energy against a fixed always-on baseline.</p>
+        </div>
       </section>
 
-      <section class="story" aria-labelledby="story-title">
+      <section class="story reveal" aria-labelledby="story-title">
         <div class="section-heading">
           <p class="kicker">Portfolio narrative</p>
           <h2 id="story-title">From Seeing Light to Engineering It</h2>
@@ -100,35 +128,41 @@
         </div>
       </section>
 
-      <section class="photo-study" aria-labelledby="photo-title">
+      <section class="photo-study reveal" id="photo-study" aria-labelledby="photo-title">
         <div class="section-heading">
           <p class="kicker">Photography layer</p>
           <h2 id="photo-title">City Light as Field Evidence</h2>
         </div>
 
         <div class="photo-board">
-          <article class="photo-frame photo-frame--wide">
+          <button class="photo-frame photo-frame--wide is-active" type="button" data-photo="street">
             <div class="photo-placeholder" aria-hidden="true"></div>
             <span>Night street / observation</span>
             <h3>What the camera notices first</h3>
             <p>Empty sidewalks can still be overlit. Your photography becomes the first sensor: it records brightness, shadows, windows, roads, and infrastructure.</p>
-          </article>
-          <article class="photo-frame">
+          </button>
+          <button class="photo-frame" type="button" data-photo="motion">
             <div class="photo-placeholder photo-placeholder--crosswalk" aria-hidden="true"></div>
             <span>Public space / motion</span>
             <h3>Movement changes the need for light</h3>
             <p>Pedestrians, cars, and bikes turn a quiet lighting condition into an active one.</p>
-          </article>
-          <article class="photo-frame">
+          </button>
+          <button class="photo-frame" type="button" data-photo="windows">
             <div class="photo-placeholder photo-placeholder--windows" aria-hidden="true"></div>
             <span>Urban texture / energy</span>
             <h3>Light reveals energy behavior</h3>
             <p>Commercial signs, apartment windows, and street lamps become visible data points.</p>
-          </article>
+          </button>
+        </div>
+
+        <div class="photo-link">
+          <span id="photoSignal">Observation: empty street, high fixed brightness</span>
+          <strong id="photoVariable">Engineering variable: lower base dim level when activity is low</strong>
+          <p id="photoExplanation">This connects your photography directly to the EE idea: the image is not just aesthetic, it identifies a mismatch between light output and real street demand.</p>
         </div>
       </section>
 
-      <section class="logic" aria-labelledby="logic-title">
+      <section class="logic reveal" id="logic" aria-labelledby="logic-title">
         <div class="section-heading">
           <p class="kicker">System logic</p>
           <h2 id="logic-title">How the Lighting System Decides</h2>
@@ -167,7 +201,7 @@
         </div>
       </section>
 
-      <section class="progression" aria-labelledby="progression-title">
+      <section class="progression reveal" id="progression" aria-labelledby="progression-title">
         <div class="section-heading">
           <p class="kicker">Connected work</p>
           <h2 id="progression-title">A Project Line, Not One Random Build</h2>
@@ -190,9 +224,28 @@
             <p>This project moves from analysis to intervention: a responsive urban lighting concept with sensors, dimming logic, and a public-space use case.</p>
           </article>
         </div>
+
+        <div class="connection-map" aria-label="Project connection map">
+          <div>
+            <span>Question</span>
+            <strong>Where is energy wasted?</strong>
+          </div>
+          <div>
+            <span>Method</span>
+            <strong>Measure behavior and cost</strong>
+          </div>
+          <div>
+            <span>Solution</span>
+            <strong>Control light by demand</strong>
+          </div>
+          <div>
+            <span>Identity</span>
+            <strong>Photography + EE + urban systems</strong>
+          </div>
+        </div>
       </section>
 
-      <section class="blueprint" aria-labelledby="blueprint-title">
+      <section class="blueprint reveal" aria-labelledby="blueprint-title">
         <div class="section-heading">
           <p class="kicker">Build structure</p>
           <h2 id="blueprint-title">Project Modules</h2>
@@ -218,7 +271,7 @@
         </div>
       </section>
 
-      <section class="prototype" aria-labelledby="prototype-title">
+      <section class="prototype reveal" id="prototype" aria-labelledby="prototype-title">
         <div class="section-heading">
           <p class="kicker">Next prototype</p>
           <h2 id="prototype-title">Arduino Build Plan</h2>

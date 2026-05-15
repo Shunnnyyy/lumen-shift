@@ -50,6 +50,16 @@ The prototype models three layers:
 - **Impact layer** - estimated energy savings compared with a fixed always-on
   lighting baseline.
 
+## Interaction Features
+
+- Scenario presets for quiet streets, commute hours, event surges, and daylight
+  mode.
+- A live insight panel that explains the current lighting decision.
+- A photography study board where each image observation maps to an engineering
+  variable and updates the simulator.
+- Scroll reveal animation, progress indicator, and section navigation to make
+  the project feel more like an interactive field study.
+
 ## Next Build Ideas
 
 - Add an Arduino prototype using a PIR or ultrasonic sensor and PWM LED control.

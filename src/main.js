@@ -11,13 +11,22 @@ const dimValue = document.querySelector('#dimValue');
 const energySaved = document.querySelector('#energySaved');
 const activityLabel = document.querySelector('#activityLabel');
 const brightnessLabel = document.querySelector('#brightnessLabel');
+const loadLabel = document.querySelector('#loadLabel');
 const pulseButton = document.querySelector('#pulseButton');
+const insightText = document.querySelector('#insightText');
+const progressBar = document.querySelector('#progressBar');
+const scenarioButtons = document.querySelectorAll('[data-scenario]');
+const photoButtons = document.querySelectorAll('[data-photo]');
+const photoSignal = document.querySelector('#photoSignal');
+const photoVariable = document.querySelector('#photoVariable');
+const photoExplanation = document.querySelector('#photoExplanation');
 
 let width = 0;
 let height = 0;
 let movementPulse = 0;
 let pointerX = 0.5;
 let pointerY = 0.5;
+let activeScenario = 'quiet';
 
 const lamps = Array.from({ length: 9 }, (_, index) => ({
   x: 0.08 + index * 0.105,
@@ -30,6 +39,37 @@ const particles = Array.from({ length: 26 }, () => ({
   speed: 0.00045 + Math.random() * 0.0013,
   size: 1.5 + Math.random() * 2.5,
 }));
+
+const scenarios = {
+  quiet: { hour: 2, flow: 16, dim: 22, pulse: 0.2 },
+  commute: { hour: 18, flow: 64, dim: 34, pulse: 0.58 },
+  event: { hour: 22, flow: 92, dim: 42, pulse: 1 },
+  daylight: { hour: 13, flow: 48, dim: 14, pulse: 0.08 },
+};
+
+const photoCopy = {
+  street: {
+    signal: 'Observation: empty street, high fixed brightness',
+    variable: 'Engineering variable: lower base dim level when activity is low',
+    explanation:
+      'This connects your photography directly to the EE idea: the image is not just aesthetic, it identifies a mismatch between light output and real street demand.',
+    scenario: 'quiet',
+  },
+  motion: {
+    signal: 'Observation: crosswalks and vehicles create short bursts of demand',
+    variable: 'Engineering variable: motion-triggered brightness ramp',
+    explanation:
+      'Movement becomes a control signal. The system keeps the street calm when empty, then raises brightness when people or cars enter the frame.',
+    scenario: 'commute',
+  },
+  windows: {
+    signal: 'Observation: windows, signs, and lamps form an energy pattern',
+    variable: 'Engineering variable: compare public lighting with surrounding load',
+    explanation:
+      'The photograph becomes a map of visible electricity use, linking SmartEnergy-style measurement to a public-space lighting decision.',
+    scenario: 'event',
+  },
+};
 
 function resize() {
   const rect = canvas.getBoundingClientRect();
@@ -60,13 +100,32 @@ function getState() {
 
 function updateReadings() {
   const state = getState();
+  const load = (state.adaptiveBrightness / 100) * 1.05;
   hourValue.textContent = formatHour(state.hour);
   flowValue.textContent = `${state.flow}%`;
   dimValue.textContent = `${state.dim}%`;
   energySaved.textContent = `${state.saved}%`;
   brightnessLabel.textContent = `${state.adaptiveBrightness}%`;
+  loadLabel.textContent = `${load.toFixed(2)} kW`;
   activityLabel.textContent =
     state.flow > 72 || movementPulse > 0.65 ? 'High' : state.flow > 28 ? 'Moderate' : 'Quiet';
+  insightText.textContent = buildInsight(state, load);
+}
+
+function buildInsight(state, load) {
+  if (state.hour > 7 && state.hour < 17) {
+    return `Daylight mode keeps street lighting minimal. The model estimates ${load.toFixed(2)} kW because ambient light reduces the need for artificial brightness.`;
+  }
+
+  if (state.flow < 25) {
+    return `Quiet street condition: the system holds brightness near the base dim level and saves about ${state.saved}% compared with an always-on baseline.`;
+  }
+
+  if (state.flow > 75) {
+    return `High activity condition: the system prioritizes visibility, raising brightness to ${state.adaptiveBrightness}% while still tracking the energy tradeoff.`;
+  }
+
+  return `Moderate activity condition: brightness rises only where movement is detected, keeping the street readable without treating the whole night as peak demand.`;
 }
 
 function drawGlow(x, y, radius, alpha) {
@@ -167,12 +226,51 @@ function drawScene(time) {
 }
 
 [hourControl, flowControl, dimControl].forEach((control) => {
-  control.addEventListener('input', updateReadings);
+  control.addEventListener('input', () => {
+    activeScenario = 'custom';
+    updateScenarioButtons();
+    updateReadings();
+  });
 });
 
 pulseButton.addEventListener('click', () => {
   movementPulse = 1;
 });
+
+scenarioButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    applyScenario(button.dataset.scenario);
+  });
+});
+
+photoButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    const photo = photoCopy[button.dataset.photo];
+    photoButtons.forEach((item) => item.classList.toggle('is-active', item === button));
+    photoSignal.textContent = photo.signal;
+    photoVariable.textContent = photo.variable;
+    photoExplanation.textContent = photo.explanation;
+    applyScenario(photo.scenario);
+  });
+});
+
+function applyScenario(name) {
+  const scenario = scenarios[name];
+  if (!scenario) return;
+  activeScenario = name;
+  hourControl.value = scenario.hour;
+  flowControl.value = scenario.flow;
+  dimControl.value = scenario.dim;
+  movementPulse = Math.max(movementPulse, scenario.pulse);
+  updateScenarioButtons();
+  updateReadings();
+}
+
+function updateScenarioButtons() {
+  scenarioButtons.forEach((button) => {
+    button.classList.toggle('is-active', button.dataset.scenario === activeScenario);
+  });
+}
 
 canvas.addEventListener('pointermove', (event) => {
   const rect = canvas.getBoundingClientRect();
@@ -182,6 +280,25 @@ canvas.addEventListener('pointermove', (event) => {
 });
 
 window.addEventListener('resize', resize);
+window.addEventListener('scroll', () => {
+  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = maxScroll > 0 ? window.scrollY / maxScroll : 0;
+  progressBar.style.transform = `scaleX(${Math.min(1, Math.max(0, progress))})`;
+});
+
+const revealObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+      }
+    });
+  },
+  { threshold: 0.16 }
+);
+
+document.querySelectorAll('.reveal').forEach((element) => revealObserver.observe(element));
 resize();
 updateReadings();
+updateScenarioButtons();
 requestAnimationFrame(drawScene);
