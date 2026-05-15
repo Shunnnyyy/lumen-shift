@@ -100,6 +100,70 @@
         </div>
       </section>
 
+      <section class="logic" aria-labelledby="logic-title">
+        <div class="section-heading">
+          <p class="kicker">System logic</p>
+          <h2 id="logic-title">How the Lighting System Decides</h2>
+        </div>
+
+        <div class="logic-layout">
+          <div class="logic-diagram" aria-label="Adaptive lighting decision flow">
+            <div>
+              <span>Input</span>
+              <strong>Hour + motion + street flow</strong>
+            </div>
+            <div>
+              <span>Controller</span>
+              <strong>Adaptive dimming rule</strong>
+            </div>
+            <div>
+              <span>Output</span>
+              <strong>Brightness + energy saved</strong>
+            </div>
+          </div>
+
+          <div class="logic-notes">
+            <article>
+              <h3>Sensor layer</h3>
+              <p>PIR or ultrasonic detection estimates whether a pedestrian, bike, or vehicle is passing through a low-activity street segment.</p>
+            </article>
+            <article>
+              <h3>Control layer</h3>
+              <p>The system keeps a safe base dim level, then raises brightness only when movement and nighttime conditions justify more power.</p>
+            </article>
+            <article>
+              <h3>Impact layer</h3>
+              <p>Estimated energy savings compare adaptive brightness against a fixed always-on baseline, turning the visual simulation into a measurable EE concept.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="progression" aria-labelledby="progression-title">
+        <div class="section-heading">
+          <p class="kicker">Connected work</p>
+          <h2 id="progression-title">A Project Line, Not One Random Build</h2>
+        </div>
+
+        <div class="progression-grid">
+          <article>
+            <span>01 / Archive</span>
+            <h3>Power in Practice</h3>
+            <p>Earlier research archive about energy inefficiency, visual systems, and everyday spaces. It frames the question: where does wasted power show up?</p>
+          </article>
+          <article>
+            <span>02 / Dashboard</span>
+            <h3>SmartEnergy</h3>
+            <p>Ontario home energy dashboard using electricity rates, monthly usage, and recommendations. It turns energy behavior into data and decisions.</p>
+          </article>
+          <article>
+            <span>03 / Solution</span>
+            <h3>Lumen Shift</h3>
+            <p>This project moves from analysis to intervention: a responsive urban lighting concept with sensors, dimming logic, and a public-space use case.</p>
+          </article>
+        </div>
+      </section>
+
       <section class="blueprint" aria-labelledby="blueprint-title">
         <div class="section-heading">
           <p class="kicker">Build structure</p>
@@ -122,6 +186,31 @@
           <article>
             <h3>Photo essay</h3>
             <p>Black-and-white city images paired with engineering notes and design choices.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="prototype" aria-labelledby="prototype-title">
+        <div class="section-heading">
+          <p class="kicker">Next prototype</p>
+          <h2 id="prototype-title">Arduino Build Plan</h2>
+        </div>
+
+        <div class="prototype-grid">
+          <article>
+            <span>Parts</span>
+            <h3>Hardware</h3>
+            <p>Arduino Uno, PIR sensor or ultrasonic distance sensor, LED strip or high-brightness LEDs, resistor, breadboard, and jumper wires.</p>
+          </article>
+          <article>
+            <span>Signal</span>
+            <h3>Input to PWM</h3>
+            <p>Read movement from the sensor, smooth the signal, then use PWM output to fade LEDs between base dim and active brightness.</p>
+          </article>
+          <article>
+            <span>Evidence</span>
+            <h3>Testing</h3>
+            <p>Compare fixed brightness against adaptive brightness across simulated quiet, moderate, and high-activity street conditions.</p>
           </article>
         </div>
       </section>

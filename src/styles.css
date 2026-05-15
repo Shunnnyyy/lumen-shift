@@ -88,7 +88,10 @@ h1 {
 
 .simulator,
 .story,
-.blueprint {
+.logic,
+.progression,
+.blueprint,
+.prototype {
   padding: 72px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
@@ -220,7 +223,9 @@ output {
 }
 
 .timeline,
-.module-grid {
+.module-grid,
+.progression-grid,
+.prototype-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1px;
@@ -230,6 +235,71 @@ output {
 
 .module-grid {
   grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.logic-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.95fr) minmax(0, 1.05fr);
+  gap: 1px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.logic-diagram {
+  display: grid;
+  gap: 1px;
+  min-height: 460px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.logic-diagram div,
+.logic-notes article {
+  background: #070707;
+}
+
+.logic-diagram div {
+  position: relative;
+  display: grid;
+  align-content: center;
+  padding: 28px;
+  overflow: hidden;
+}
+
+.logic-diagram div::after {
+  content: "";
+  position: absolute;
+  right: 28px;
+  width: 72px;
+  height: 72px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  box-shadow: 0 0 80px rgba(255, 255, 255, 0.13);
+}
+
+.logic-diagram span {
+  margin-bottom: 18px;
+  color: rgba(255, 255, 255, 0.46);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.logic-diagram strong {
+  position: relative;
+  z-index: 1;
+  max-width: 12ch;
+  color: #fff;
+  font-size: clamp(1.9rem, 4vw, 3.8rem);
+  line-height: 0.98;
+}
+
+.logic-notes {
+  display: grid;
+  gap: 1px;
+}
+
+.logic-notes article {
+  min-height: auto;
 }
 
 article {
@@ -258,6 +328,25 @@ article p {
   line-height: 1.55;
 }
 
+.progression-grid article:nth-child(3),
+.prototype-grid article:nth-child(2) {
+  background: #f7f7f7;
+}
+
+.progression-grid article:nth-child(3) span,
+.progression-grid article:nth-child(3) h3,
+.progression-grid article:nth-child(3) p,
+.prototype-grid article:nth-child(2) span,
+.prototype-grid article:nth-child(2) h3,
+.prototype-grid article:nth-child(2) p {
+  color: #050505;
+}
+
+.progression-grid article:nth-child(3) span,
+.prototype-grid article:nth-child(2) span {
+  opacity: 0.58;
+}
+
 @media (max-width: 820px) {
   .shell {
     width: min(100% - 22px, 1180px);
@@ -271,8 +360,15 @@ article p {
   .section-heading,
   .controls,
   .timeline,
-  .module-grid {
+  .module-grid,
+  .logic-layout,
+  .progression-grid,
+  .prototype-grid {
     grid-template-columns: 1fr;
+  }
+
+  .logic-diagram {
+    min-height: 380px;
   }
 
   .stage,

@@ -20,6 +20,30 @@ to movement from pedestrians or vehicles.
 Photography interest -> urban observation -> power and energy research ->
 adaptive lighting solution -> future electrical engineering direction.
 
+## Connected Project Progression
+
+This project is designed as the third step in a larger application narrative:
+
+1. **Power in Practice** - a research archive about energy inefficiency,
+   observation, and visual systems.
+2. **SmartEnergy** - a home-energy dashboard using Ontario electricity rates,
+   monthly usage, and recommendations.
+3. **Lumen Shift** - an adaptive urban lighting system that turns energy
+   analysis into a public-space engineering solution.
+
+Together, the projects show a progression from observing energy waste, to
+modeling energy behavior, to designing a responsive electrical system.
+
+## System Logic
+
+The prototype models three layers:
+
+- **Sensor layer** - movement and activity detection.
+- **Control layer** - adaptive dimming logic based on hour, street flow, and
+  base brightness.
+- **Impact layer** - estimated energy savings compared with a fixed always-on
+  lighting baseline.
+
 ## Next Build Ideas
 
 - Add an Arduino prototype using a PIR or ultrasonic sensor and PWM LED control.
