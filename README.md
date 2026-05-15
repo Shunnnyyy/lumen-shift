@@ -20,6 +20,12 @@ to movement from pedestrians or vehicles.
 Photography interest -> urban observation -> power and energy research ->
 adaptive lighting solution -> future electrical engineering direction.
 
+The current visual direction uses a white engineering-grid background, black
+typography, and a photography field-study section. The photography layer frames
+city night images as evidence: light levels, empty sidewalks, windows, signage,
+and street movement become observations that lead into the adaptive lighting
+system.
+
 ## Connected Project Progression
 
 This project is designed as the third step in a larger application narrative:

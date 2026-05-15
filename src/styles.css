@@ -1,11 +1,16 @@
 :root {
-  color: #f8f8f8;
-  background: #050505;
+  color: #080808;
+  background: #f7f7f2;
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
   font-synthesis: none;
   text-rendering: geometricPrecision;
+  --paper: #f7f7f2;
+  --ink: #080808;
+  --muted: rgba(8, 8, 8, 0.62);
+  --faint: rgba(8, 8, 8, 0.1);
+  --line: rgba(8, 8, 8, 0.22);
 }
 
 * {
@@ -16,8 +21,11 @@ body {
   margin: 0;
   min-width: 320px;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 22rem),
-    #050505;
+    linear-gradient(var(--faint) 1px, transparent 1px),
+    linear-gradient(90deg, var(--faint) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.85), rgba(247, 247, 242, 0.94)),
+    var(--paper);
+  background-size: 34px 34px, 34px 34px, 100% 100%, 100% 100%;
 }
 
 button,
@@ -36,7 +44,7 @@ input {
   align-items: end;
   gap: 32px;
   padding: 48px 0 30px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  border-bottom: 1px solid var(--line);
 }
 
 .hero__copy {
@@ -45,7 +53,7 @@ input {
 
 .kicker {
   margin: 0 0 14px;
-  color: rgba(255, 255, 255, 0.62);
+  color: var(--muted);
   font-size: 0.77rem;
   font-weight: 700;
   letter-spacing: 0.16em;
@@ -69,7 +77,7 @@ h1 {
 
 .lead {
   max-width: 720px;
-  color: rgba(255, 255, 255, 0.76);
+  color: rgba(8, 8, 8, 0.72);
   font-size: clamp(1.05rem, 2vw, 1.55rem);
   line-height: 1.5;
 }
@@ -78,22 +86,24 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(8, 8, 8, 0.78);
 }
 
 .hero__meta span {
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid var(--line);
+  background: rgba(247, 247, 242, 0.72);
   padding: 10px 12px;
 }
 
 .simulator,
 .story,
+.photo-study,
 .logic,
 .progression,
 .blueprint,
 .prototype {
   padding: 72px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid var(--line);
 }
 
 .section-heading {
@@ -115,8 +125,8 @@ h1 {
   position: relative;
   overflow: hidden;
   min-height: 560px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  background: #030303;
+  border: 1px solid var(--ink);
+  background: #f4f4ef;
 }
 
 canvas {
@@ -133,14 +143,14 @@ canvas {
   left: 18px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: rgba(0, 0, 0, 0.62);
-  backdrop-filter: blur(18px);
+  border: 1px solid var(--ink);
+  background: rgba(247, 247, 242, 0.9);
+  backdrop-filter: blur(14px);
 }
 
 .stats div {
   padding: 16px;
-  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  border-right: 1px solid var(--line);
 }
 
 .stats div:last-child {
@@ -151,14 +161,14 @@ canvas {
 .controls span {
   display: block;
   margin-bottom: 8px;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--muted);
   font-size: 0.78rem;
   text-transform: uppercase;
 }
 
 .stats strong {
   display: block;
-  color: #fff;
+  color: var(--ink);
   font-size: clamp(1.5rem, 3vw, 2.6rem);
   font-weight: 750;
 }
@@ -168,39 +178,39 @@ canvas {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1px;
   margin-top: 1px;
-  background: rgba(255, 255, 255, 0.16);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: var(--ink);
+  border: 1px solid var(--ink);
 }
 
 .controls label,
 .mode-button {
   min-height: 116px;
   padding: 18px;
-  background: #070707;
+  background: rgba(247, 247, 242, 0.96);
 }
 
 input[type="range"] {
   width: 100%;
-  accent-color: #fff;
+  accent-color: var(--ink);
 }
 
 input[type="range"]:focus-visible {
-  outline: 1px solid rgba(255, 255, 255, 0.72);
+  outline: 1px solid var(--ink);
   outline-offset: 5px;
 }
 
 output {
   display: block;
   margin-top: 12px;
-  color: #fff;
+  color: var(--ink);
   font-size: 1.1rem;
   font-weight: 700;
 }
 
 .mode-button {
   border: 0;
-  color: #050505;
-  background: #fff;
+  color: #f7f7f2;
+  background: var(--ink);
   font-weight: 800;
   text-transform: uppercase;
   cursor: pointer;
@@ -212,9 +222,9 @@ output {
 
 .mode-button:hover,
 .mode-button:focus-visible {
-  color: #fff;
-  background: #1c1c1c;
-  outline: 1px solid #fff;
+  color: var(--ink);
+  background: #fff;
+  outline: 1px solid var(--ink);
   outline-offset: -5px;
 }
 
@@ -229,8 +239,8 @@ output {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1px;
-  background: rgba(255, 255, 255, 0.14);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: var(--ink);
+  border: 1px solid var(--ink);
 }
 
 .module-grid {
@@ -241,20 +251,20 @@ output {
   display: grid;
   grid-template-columns: minmax(280px, 0.95fr) minmax(0, 1.05fr);
   gap: 1px;
-  background: rgba(255, 255, 255, 0.14);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: var(--ink);
+  border: 1px solid var(--ink);
 }
 
 .logic-diagram {
   display: grid;
   gap: 1px;
   min-height: 460px;
-  background: rgba(255, 255, 255, 0.12);
+  background: var(--ink);
 }
 
 .logic-diagram div,
 .logic-notes article {
-  background: #070707;
+  background: rgba(247, 247, 242, 0.96);
 }
 
 .logic-diagram div {
@@ -271,14 +281,14 @@ output {
   right: 28px;
   width: 72px;
   height: 72px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(8, 8, 8, 0.24);
   border-radius: 50%;
-  box-shadow: 0 0 80px rgba(255, 255, 255, 0.13);
+  box-shadow: 0 0 80px rgba(8, 8, 8, 0.1);
 }
 
 .logic-diagram span {
   margin-bottom: 18px;
-  color: rgba(255, 255, 255, 0.46);
+  color: var(--muted);
   font-size: 0.78rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -288,7 +298,7 @@ output {
   position: relative;
   z-index: 1;
   max-width: 12ch;
-  color: #fff;
+  color: var(--ink);
   font-size: clamp(1.9rem, 4vw, 3.8rem);
   line-height: 0.98;
 }
@@ -305,32 +315,32 @@ output {
 article {
   min-height: 230px;
   padding: 24px;
-  background: #070707;
+  background: rgba(247, 247, 242, 0.96);
 }
 
 article span {
   display: block;
   margin-bottom: 74px;
-  color: rgba(255, 255, 255, 0.42);
+  color: var(--muted);
   font-size: 0.82rem;
   font-weight: 800;
 }
 
 article h3 {
   margin-bottom: 12px;
-  color: #fff;
+  color: var(--ink);
   font-size: 1.4rem;
 }
 
 article p {
   margin-bottom: 0;
-  color: rgba(255, 255, 255, 0.68);
+  color: rgba(8, 8, 8, 0.68);
   line-height: 1.55;
 }
 
 .progression-grid article:nth-child(3),
 .prototype-grid article:nth-child(2) {
-  background: #f7f7f7;
+  background: var(--ink);
 }
 
 .progression-grid article:nth-child(3) span,
@@ -339,12 +349,61 @@ article p {
 .prototype-grid article:nth-child(2) span,
 .prototype-grid article:nth-child(2) h3,
 .prototype-grid article:nth-child(2) p {
-  color: #050505;
+  color: #f7f7f2;
 }
 
 .progression-grid article:nth-child(3) span,
 .prototype-grid article:nth-child(2) span {
-  opacity: 0.58;
+  color: rgba(247, 247, 242, 0.62);
+  opacity: 1;
+}
+
+.progression-grid article:nth-child(3) p,
+.prototype-grid article:nth-child(2) p {
+  color: rgba(247, 247, 242, 0.72);
+}
+
+.photo-board {
+  display: grid;
+  grid-template-columns: 1.2fr 0.9fr 0.9fr;
+  gap: 1px;
+  background: var(--ink);
+  border: 1px solid var(--ink);
+}
+
+.photo-frame {
+  min-height: 420px;
+  display: grid;
+  align-content: start;
+  gap: 18px;
+}
+
+.photo-frame--wide {
+  min-height: 520px;
+}
+
+.photo-placeholder {
+  min-height: 250px;
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(90deg, transparent 48%, rgba(247, 247, 242, 0.9) 48% 52%, transparent 52%),
+    radial-gradient(circle at 24% 42%, rgba(247, 247, 242, 0.95) 0 4px, transparent 5px),
+    radial-gradient(circle at 72% 30%, rgba(247, 247, 242, 0.9) 0 3px, transparent 4px),
+    linear-gradient(180deg, #111 0 42%, #2c2c2c 42% 44%, #0d0d0d 44% 100%);
+  filter: grayscale(1);
+}
+
+.photo-placeholder--crosswalk {
+  background:
+    repeating-linear-gradient(112deg, transparent 0 26px, rgba(247, 247, 242, 0.9) 27px 39px),
+    linear-gradient(180deg, #191919, #050505);
+}
+
+.photo-placeholder--windows {
+  background:
+    repeating-linear-gradient(90deg, #111 0 28px, #f7f7f2 29px 33px, #111 34px 62px),
+    repeating-linear-gradient(0deg, transparent 0 34px, rgba(247, 247, 242, 0.75) 35px 38px, transparent 39px 70px),
+    #101010;
 }
 
 @media (max-width: 820px) {
@@ -362,6 +421,7 @@ article p {
   .timeline,
   .module-grid,
   .logic-layout,
+  .photo-board,
   .progression-grid,
   .prototype-grid {
     grid-template-columns: 1fr;

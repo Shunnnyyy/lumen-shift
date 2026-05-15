@@ -71,9 +71,9 @@ function updateReadings() {
 
 function drawGlow(x, y, radius, alpha) {
   const gradient = ctx.createRadialGradient(x, y, 4, x, y, radius);
-  gradient.addColorStop(0, `rgba(255,255,255,${alpha})`);
-  gradient.addColorStop(0.28, `rgba(255,255,255,${alpha * 0.24})`);
-  gradient.addColorStop(1, 'rgba(255,255,255,0)');
+  gradient.addColorStop(0, `rgba(0,0,0,${alpha * 0.52})`);
+  gradient.addColorStop(0.28, `rgba(0,0,0,${alpha * 0.16})`);
+  gradient.addColorStop(1, 'rgba(0,0,0,0)');
   ctx.fillStyle = gradient;
   ctx.beginPath();
   ctx.arc(x, y, radius, 0, Math.PI * 2);
@@ -85,13 +85,13 @@ function drawScene(time) {
   ctx.clearRect(0, 0, width, height);
 
   const background = ctx.createLinearGradient(0, 0, 0, height);
-  background.addColorStop(0, '#030303');
-  background.addColorStop(0.58, '#111');
-  background.addColorStop(1, '#050505');
+  background.addColorStop(0, '#f7f7f2');
+  background.addColorStop(0.58, '#efefea');
+  background.addColorStop(1, '#f9f9f5');
   ctx.fillStyle = background;
   ctx.fillRect(0, 0, width, height);
 
-  ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+  ctx.strokeStyle = 'rgba(0,0,0,0.08)';
   ctx.lineWidth = 1;
   for (let i = 0; i < 10; i += 1) {
     const y = height * (0.16 + i * 0.075);
@@ -101,13 +101,13 @@ function drawScene(time) {
     ctx.stroke();
   }
 
-  ctx.fillStyle = '#111';
+  ctx.fillStyle = 'rgba(0,0,0,0.035)';
   ctx.fillRect(0, height * 0.48, width, height * 0.24);
-  ctx.fillStyle = '#070707';
+  ctx.fillStyle = 'rgba(0,0,0,0.05)';
   ctx.fillRect(0, height * 0.72, width, height * 0.28);
 
   const roadY = height * 0.73;
-  ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+  ctx.strokeStyle = 'rgba(0,0,0,0.36)';
   ctx.setLineDash([width * 0.025, width * 0.04]);
   ctx.beginPath();
   ctx.moveTo(0, roadY);
@@ -127,21 +127,21 @@ function drawScene(time) {
       (state.adaptiveBrightness / 100) * flowWave + proximity * 0.42 + movementPulse * 0.34
     );
 
-    ctx.strokeStyle = 'rgba(255,255,255,0.36)';
+    ctx.strokeStyle = 'rgba(0,0,0,0.62)';
     ctx.lineWidth = 1.2;
     ctx.beginPath();
     ctx.moveTo(x, postTop);
     ctx.lineTo(x, postBottom);
     ctx.stroke();
 
-    ctx.fillStyle = `rgba(255,255,255,${0.38 + intensity * 0.58})`;
+    ctx.fillStyle = `rgba(0,0,0,${0.36 + intensity * 0.48})`;
     ctx.beginPath();
     ctx.arc(x, postTop, 4 + intensity * 2.2, 0, Math.PI * 2);
     ctx.fill();
 
     drawGlow(x, postTop + height * 0.12, height * (0.18 + intensity * 0.18), 0.055 + intensity * 0.18);
 
-    ctx.fillStyle = `rgba(255,255,255,${0.07 + intensity * 0.18})`;
+    ctx.fillStyle = `rgba(0,0,0,${0.06 + intensity * 0.18})`;
     ctx.beginPath();
     ctx.ellipse(x, postBottom + 12, width * 0.045 * intensity, height * 0.02, 0, 0, Math.PI * 2);
     ctx.fill();
@@ -152,7 +152,7 @@ function drawScene(time) {
     if (particle.x > 1.04) particle.x = -0.04;
     const active = particle.x < state.flow / 100 || movementPulse > 0.15;
     const alpha = active ? 0.72 : 0.12;
-    ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+    ctx.fillStyle = `rgba(0,0,0,${alpha})`;
     ctx.beginPath();
     ctx.arc(particle.x * width, particle.y * height, particle.size, 0, Math.PI * 2);
     ctx.fill();
