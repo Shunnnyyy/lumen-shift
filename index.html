@@ -18,7 +18,7 @@
       <a href="#logic">Logic</a>
       <a href="#progression">Progression</a>
       <a href="#sources">Sources</a>
-      <a href="#prototype">Prototype</a>
+      <a href="#field-log">Field Log</a>
     </nav>
     <main class="shell">
       <section class="hero" aria-labelledby="project-title">
@@ -141,24 +141,25 @@
             <div class="photo-placeholder" aria-hidden="true"></div>
             <span>Night street / observation</span>
             <h3>What the camera notices first</h3>
-            <p>Empty sidewalks can still be overlit. Your photography becomes the first sensor: it records brightness, shadows, windows, roads, and infrastructure.</p>
+            <p>Empty sidewalks can still be overlit. Sample note: 18 lux, low activity, fixed street brightness.</p>
           </button>
           <button class="photo-frame" type="button" data-photo="motion">
             <div class="photo-placeholder photo-placeholder--crosswalk" aria-hidden="true"></div>
             <span>Public space / motion</span>
             <h3>Movement changes the need for light</h3>
-            <p>Pedestrians, cars, and bikes turn a quiet lighting condition into an active one.</p>
+            <p>Pedestrians, cars, and bikes turn a quiet condition into an active one. Sample note: 42 lux, moderate activity.</p>
           </button>
           <button class="photo-frame" type="button" data-photo="windows">
             <div class="photo-placeholder photo-placeholder--windows" aria-hidden="true"></div>
             <span>Urban texture / energy</span>
             <h3>Light reveals energy behavior</h3>
-            <p>Commercial signs, apartment windows, and street lamps become visible data points.</p>
+            <p>Commercial signs, apartment windows, and street lamps become visible data points. Sample note: 96 lux, high ambient light.</p>
           </button>
         </div>
 
         <div class="photo-link">
           <span id="photoSignal">Observation: empty street, high fixed brightness</span>
+          <strong id="photoLux">Sample reading: 18 lux / low activity</strong>
           <strong id="photoVariable">Question: could the base brightness be lower when the street is quiet?</strong>
           <p id="photoExplanation">The image is not just aesthetic. It becomes a prompt: what is the light doing, who is it serving, and does the whole street need the same intensity all night?</p>
         </div>
@@ -172,22 +173,41 @@
 
         <div class="map-layout">
           <div class="map-panel" aria-label="Stylized Toronto night light map">
-            <button class="map-pin is-active" type="button" data-map="residential" style="--x: 24%; --y: 42%">
-              <span>Residential</span>
-            </button>
-            <button class="map-pin" type="button" data-map="transit" style="--x: 58%; --y: 58%">
-              <span>Transit</span>
-            </button>
-            <button class="map-pin" type="button" data-map="commercial" style="--x: 72%; --y: 28%">
-              <span>Commercial</span>
-            </button>
+            <div id="mapPins"></div>
           </div>
 
           <div class="map-reading">
             <span id="mapZone">Residential street</span>
             <h3 id="mapFinding">Low movement, fixed brightness</h3>
+            <dl class="map-metrics" aria-label="Selected observation data">
+              <div><dt>Lux</dt><dd id="mapLux">18</dd></div>
+              <div><dt>Time</dt><dd id="mapTime">21:40</dd></div>
+              <div><dt>Activity</dt><dd id="mapActivity">Low</dd></div>
+            </dl>
             <p id="mapNote">Map photography turns individual night images into a spatial argument: different urban zones need different lighting logic instead of one citywide brightness habit.</p>
             <a href="https://noctis-lake.vercel.app/" target="_blank" rel="noreferrer">Open full photo map</a>
+          </div>
+        </div>
+
+        <div class="data-table" id="field-log" aria-labelledby="field-log-title">
+          <div class="data-table__head">
+            <span>Field log</span>
+            <strong id="field-log-title">Lux readings to collect next</strong>
+            <p>Each new observation should be one row: location, time, lux, activity level, and a short visual note.</p>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Location</th>
+                  <th>Time</th>
+                  <th>Lux</th>
+                  <th>Activity</th>
+                  <th>Observation</th>
+                </tr>
+              </thead>
+              <tbody id="fieldDataRows"></tbody>
+            </table>
           </div>
         </div>
       </section>
@@ -195,37 +215,37 @@
       <section class="logic reveal" id="logic" aria-labelledby="logic-title">
         <div class="section-heading">
           <p class="kicker">System logic</p>
-          <h2 id="logic-title">How the Lighting System Decides</h2>
+          <h2 id="logic-title">How the Observation Turns Into a Question</h2>
         </div>
 
         <div class="logic-layout">
           <div class="logic-diagram" aria-label="Adaptive lighting decision flow">
             <div>
               <span>Input</span>
-              <strong>Hour + motion + street flow</strong>
+              <strong>Photo + time + lux</strong>
             </div>
             <div>
-              <span>Controller</span>
-              <strong>Adaptive dimming rule</strong>
+              <span>Pattern</span>
+              <strong>Activity vs brightness</strong>
             </div>
             <div>
-              <span>Output</span>
-              <strong>Brightness + energy saved</strong>
+              <span>Question</span>
+              <strong>Does the light match use?</strong>
             </div>
           </div>
 
           <div class="logic-notes">
             <article>
-              <h3>Sensor layer</h3>
-              <p>PIR or ultrasonic detection estimates whether a pedestrian, bike, or vehicle is passing through a low-activity street segment.</p>
+              <h3>Record consistently</h3>
+              <p>Use the same phone app, similar camera direction, and the same basic fields each time: location, time, lux, activity, and observation.</p>
             </article>
             <article>
-              <h3>Control layer</h3>
-              <p>The system keeps a safe base dim level, then raises brightness only when movement and nighttime conditions justify more power.</p>
+              <h3>Compare patterns</h3>
+              <p>A single lux reading is not the point. The value becomes useful when compared across streets, times, and activity levels.</p>
             </article>
             <article>
-              <h3>Impact layer</h3>
-            <p>Estimated savings compare adaptive brightness against a fixed always-on baseline, keeping the visual study connected to measurable behavior.</p>
+              <h3>Ask better questions</h3>
+              <p>The field log helps identify places where the visible brightness feels higher than the observed activity.</p>
             </article>
           </div>
         </div>
@@ -305,26 +325,26 @@
 
       <section class="blueprint reveal" aria-labelledby="blueprint-title">
         <div class="section-heading">
-          <p class="kicker">Build structure</p>
-          <h2 id="blueprint-title">Project Modules</h2>
+          <p class="kicker">Observation structure</p>
+          <h2 id="blueprint-title">What the Project Tracks</h2>
         </div>
 
         <div class="module-grid">
           <article>
-            <h3>Web simulation</h3>
-            <p>Interactive canvas scene, street-flow controls, and estimated energy savings.</p>
+            <h3>Photo</h3>
+            <p>A visual record of the street, including glare, shadows, signs, windows, and visible movement.</p>
           </article>
           <article>
-            <h3>Arduino prototype</h3>
-            <p>PIR or ultrasonic sensor input connected to PWM LED brightness control.</p>
+            <h3>Lux</h3>
+            <p>A phone-based illuminance reading used for comparison, not scientific-grade precision.</p>
           </article>
           <article>
-            <h3>Data dashboard</h3>
-            <p>Daily activity curves, baseline comparisons, and sustainability metrics.</p>
+            <h3>Activity</h3>
+            <p>A simple low, medium, or high activity label based on pedestrians, cars, bikes, and open businesses.</p>
           </article>
           <article>
-            <h3>Photo essay</h3>
-            <p>Black-and-white city images paired with observations, questions, and design choices.</p>
+            <h3>Pattern</h3>
+            <p>A short note explaining whether the brightness seems aligned with actual street use.</p>
           </article>
         </div>
       </section>
@@ -351,15 +371,15 @@
             <strong>Context-adaptive street lighting</strong>
             <p>Research on adaptive dimming, traffic-responsive lighting, long-term measurements, and system tradeoffs.</p>
           </a>
-          <a href="https://support.arduino.cc/hc/en-us/articles/9350537961500-Use-PWM-output-with-Arduino" target="_blank" rel="noreferrer">
-            <span>Prototype basics</span>
-            <strong>Arduino PWM output</strong>
-            <p>Learning reference for using PWM and analogWrite-style brightness control in a small LED prototype.</p>
+          <a href="https://www.energy.gov/eere/ssl/led-basics" target="_blank" rel="noreferrer">
+            <span>Lighting basics</span>
+            <strong>DOE LED basics</strong>
+            <p>Background reading on LED lighting, efficiency, and why lighting quality matters beyond brightness alone.</p>
           </a>
-          <a href="https://learn.adafruit.com/pir-passive-infrared-proximity-motion-sensor/overview" target="_blank" rel="noreferrer">
-            <span>Motion sensing</span>
-            <strong>PIR motion sensor guide</strong>
-            <p>A beginner-friendly guide to PIR sensors, useful for translating movement into a lighting response.</p>
+          <a href="https://open.toronto.ca/" target="_blank" rel="noreferrer">
+            <span>Local context</span>
+            <strong>City of Toronto Open Data</strong>
+            <p>A starting point for future neighborhood, infrastructure, and map-based public datasets.</p>
           </a>
           <a href="https://ladsweb.modaps.eosdis.nasa.gov/missions-and-measurements/science-domain/nighttime-lights" target="_blank" rel="noreferrer">
             <span>Night light data</span>
@@ -369,30 +389,6 @@
         </div>
       </section>
 
-      <section class="prototype reveal" id="prototype" aria-labelledby="prototype-title">
-        <div class="section-heading">
-          <p class="kicker">Next prototype</p>
-          <h2 id="prototype-title">Arduino Build Plan</h2>
-        </div>
-
-        <div class="prototype-grid">
-          <article>
-            <span>Parts</span>
-            <h3>Hardware</h3>
-            <p>Arduino Uno, PIR sensor or ultrasonic distance sensor, LED strip or high-brightness LEDs, resistor, breadboard, and jumper wires.</p>
-          </article>
-          <article>
-            <span>Signal</span>
-            <h3>Input to PWM</h3>
-            <p>Read movement from the sensor, smooth the signal, then use PWM output to fade LEDs between base dim and active brightness.</p>
-          </article>
-          <article>
-            <span>Evidence</span>
-            <h3>Testing</h3>
-            <p>Compare fixed brightness against adaptive brightness across simulated quiet, moderate, and high-activity street conditions.</p>
-          </article>
-        </div>
-      </section>
     </main>
 
     <script type="module" src="/src/main.js"></script>

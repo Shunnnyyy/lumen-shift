@@ -12,13 +12,13 @@ to movement from pedestrians or vehicles.
 ## Project Structure
 
 - `index.html` - project page
-- `src/main.js` - canvas simulation, interaction logic, and energy estimates
+- `src/main.js` - canvas simulation, field records, interaction logic, and data table rendering
 - `src/styles.css` - monochrome visual system and responsive layout
 
 ## Project Thread
 
 Photography interest -> urban observation -> electricity habits -> interactive
-lighting prototype.
+lighting field study.
 
 The current visual direction uses a white grid background, black
 typography, and a photography field-study section. The photography layer frames
@@ -34,21 +34,19 @@ This project sits inside a small set of connected personal projects:
 2. **SmartEnergy** - a home-energy dashboard using Ontario electricity rates,
    monthly usage, and scenario notes.
 3. **NOCTIS** - a Toronto night photography map and light archive.
-4. **Lumen Shift** - an adaptive lighting prototype that asks how public light
+4. **Lumen Shift** - an adaptive lighting field study that asks how public light
    could respond to actual street activity.
 
 Together, the projects show a progression from noticing light, to mapping it,
-to modeling energy behavior, to building a responsive visual prototype.
+to modeling energy behavior, to building a responsive visual field study.
 
 ## System Logic
 
-The prototype models three layers:
+The project tracks three layers:
 
-- **Sensor layer** - movement and activity detection.
-- **Control layer** - adaptive dimming logic based on hour, street flow, and
-  base brightness.
-- **Impact layer** - estimated energy savings compared with a fixed always-on
-  lighting baseline.
+- **Observation layer** - photo, location, time, lux, activity, and notes.
+- **Pattern layer** - comparison across streets, times, and activity levels.
+- **Question layer** - whether visible brightness seems aligned with actual use.
 
 ## Interaction Features
 
@@ -61,9 +59,8 @@ The prototype models three layers:
 
 ## Next Build Ideas
 
-- Add an Arduino prototype using a PIR or ultrasonic sensor and PWM LED control.
-- Collect local night-street photos and pair them with observation notes.
-- Add a CSV-based dashboard comparing fixed lighting vs adaptive lighting.
+- Collect local night-street photos and pair them with lux readings.
+- Add a CSV-based dashboard comparing lux, activity, time, and location.
 - Build a short research page on smart street lighting and urban energy use.
 
 ## Run Locally

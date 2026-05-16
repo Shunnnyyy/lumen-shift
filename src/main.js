@@ -18,12 +18,17 @@ const progressBar = document.querySelector('#progressBar');
 const scenarioButtons = document.querySelectorAll('[data-scenario]');
 const photoButtons = document.querySelectorAll('[data-photo]');
 const photoSignal = document.querySelector('#photoSignal');
+const photoLux = document.querySelector('#photoLux');
 const photoVariable = document.querySelector('#photoVariable');
 const photoExplanation = document.querySelector('#photoExplanation');
-const mapButtons = document.querySelectorAll('[data-map]');
+const mapPins = document.querySelector('#mapPins');
 const mapZone = document.querySelector('#mapZone');
 const mapFinding = document.querySelector('#mapFinding');
+const mapLux = document.querySelector('#mapLux');
+const mapTime = document.querySelector('#mapTime');
+const mapActivity = document.querySelector('#mapActivity');
 const mapNote = document.querySelector('#mapNote');
+const fieldDataRows = document.querySelector('#fieldDataRows');
 
 let width = 0;
 let height = 0;
@@ -57,6 +62,7 @@ const scenarios = {
 const photoCopy = {
   street: {
     signal: 'Observation: empty street, high fixed brightness',
+    lux: 'Sample reading: 18 lux / low activity',
     variable: 'Question: could the base brightness be lower when activity is low?',
     explanation:
       'The photograph becomes a prompt instead of proof. It asks whether a quiet block needs the same brightness as an active one.',
@@ -64,6 +70,7 @@ const photoCopy = {
   },
   motion: {
     signal: 'Observation: crosswalks and vehicles create short bursts of demand',
+    lux: 'Sample reading: 42 lux / moderate activity',
     variable: 'Question: what should light do when motion enters the frame?',
     explanation:
       'Movement becomes a control signal. The system keeps the street calm when empty, then raises brightness when people or cars enter the frame.',
@@ -71,6 +78,7 @@ const photoCopy = {
   },
   windows: {
     signal: 'Observation: windows, signs, and lamps form an energy pattern',
+    lux: 'Sample reading: 96 lux / high ambient light',
     variable: 'Question: where does public light overlap with private light?',
     explanation:
       'The photograph becomes a map of visible electricity use, connecting the dashboard-style numbers with a real public street.',
@@ -78,29 +86,50 @@ const photoCopy = {
   },
 };
 
-const mapCopy = {
-  residential: {
+const fieldRecords = [
+  {
+    id: 'residential',
     zone: 'Residential street',
+    location: 'Residential side street',
+    time: '21:40',
+    lux: 18,
+    activity: 'Low',
     finding: 'Low movement, fixed brightness',
     note:
-      'Residential night photos often show quiet sidewalks with lamps still running at a steady level. This supports a lower base dim level plus motion-triggered ramping.',
+      'Quiet sidewalk with steady streetlight brightness. Good example of a place to compare low activity against fixed illumination.',
     scenario: 'quiet',
+    x: '24%',
+    y: '42%',
   },
-  transit: {
+  {
+    id: 'transit',
     zone: 'Transit stop',
+    location: 'Transit stop / crosswalk',
+    time: '22:10',
+    lux: 42,
+    activity: 'Medium',
     finding: 'Short bursts of people and vehicles',
     note:
-      'Transit photography shows intermittent demand: a stop can be empty for minutes, then suddenly active. The system should brighten quickly and fade slowly.',
+      'Intermittent movement: the stop can be quiet, then briefly active when people, buses, or cars arrive.',
     scenario: 'commute',
+    x: '58%',
+    y: '58%',
   },
-  commercial: {
+  {
+    id: 'commercial',
     zone: 'Commercial corridor',
+    location: 'Commercial corridor',
+    time: '20:55',
+    lux: 96,
+    activity: 'High',
     finding: 'High ambient light and overlapping loads',
     note:
-      'Commercial streets combine signs, windows, traffic, and public lighting. The map helps separate safety lighting from already-bright background energy use.',
+      'Signs, windows, storefront lighting, cars, and public lamps overlap. This is useful for comparing ambient light with street activity.',
     scenario: 'event',
+    x: '72%',
+    y: '28%',
   },
-};
+];
 
 function resize() {
   const rect = canvas.getBoundingClientRect();
@@ -313,22 +342,61 @@ photoButtons.forEach((button) => {
     const photo = photoCopy[button.dataset.photo];
     photoButtons.forEach((item) => item.classList.toggle('is-active', item === button));
     photoSignal.textContent = photo.signal;
+    photoLux.textContent = photo.lux;
     photoVariable.textContent = photo.variable;
     photoExplanation.textContent = photo.explanation;
     applyScenario(photo.scenario);
   });
 });
 
-mapButtons.forEach((button) => {
-  button.addEventListener('click', () => {
-    const reading = mapCopy[button.dataset.map];
-    mapButtons.forEach((item) => item.classList.toggle('is-active', item === button));
-    mapZone.textContent = reading.zone;
-    mapFinding.textContent = reading.finding;
-    mapNote.textContent = reading.note;
-    applyScenario(reading.scenario);
+function renderMapPins() {
+  mapPins.innerHTML = fieldRecords
+    .map(
+      (record, index) => `
+        <button class="map-pin ${index === 0 ? 'is-active' : ''}" type="button" data-map="${record.id}" style="--x: ${record.x}; --y: ${record.y}">
+          <span>${record.zone}</span>
+        </button>
+      `
+    )
+    .join('');
+}
+
+function renderFieldData() {
+  fieldDataRows.innerHTML = fieldRecords
+    .map(
+      (record) => `
+        <tr>
+          <td>${record.location}</td>
+          <td>${record.time}</td>
+          <td>${record.lux} lux</td>
+          <td>${record.activity}</td>
+          <td>${record.note}</td>
+        </tr>
+      `
+    )
+    .join('');
+}
+
+function selectMapRecord(id) {
+  const reading = fieldRecords.find((record) => record.id === id);
+  if (!reading) return;
+  document.querySelectorAll('[data-map]').forEach((item) => {
+    item.classList.toggle('is-active', item.dataset.map === id);
   });
-});
+  mapZone.textContent = reading.zone;
+  mapFinding.textContent = reading.finding;
+  mapLux.textContent = `${reading.lux} lux`;
+  mapTime.textContent = reading.time;
+  mapActivity.textContent = reading.activity;
+  mapNote.textContent = reading.note;
+  applyScenario(reading.scenario);
+}
+
+function bindMapPins() {
+  document.querySelectorAll('[data-map]').forEach((button) => {
+    button.addEventListener('click', () => selectMapRecord(button.dataset.map));
+  });
+}
 
 function applyScenario(name) {
   const scenario = scenarios[name];
@@ -382,6 +450,9 @@ const revealObserver = new IntersectionObserver(
 );
 
 document.querySelectorAll('.reveal').forEach((element) => revealObserver.observe(element));
+renderMapPins();
+renderFieldData();
+bindMapPins();
 resize();
 updateReadings();
 updateScenarioButtons();
