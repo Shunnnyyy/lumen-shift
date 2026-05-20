@@ -29,6 +29,11 @@ const mapTime = document.querySelector('#mapTime');
 const mapActivity = document.querySelector('#mapActivity');
 const mapNote = document.querySelector('#mapNote');
 const fieldDataRows = document.querySelector('#fieldDataRows');
+const noctisSupabaseUrl = 'https://szmcjrgtecwzxvsszeib.supabase.co';
+const noctisSupabaseKey = 'sb_publishable_glEsWFXGRqG1c4OU51YlyA_uh7_fojn';
+const noctisColumns = 'id,title,lat,lng,area,condition,time,intensity,img,note,analysis,created_at';
+const metaStart = '[NOCTIS_FIELD_META]';
+const metaEnd = '[/NOCTIS_FIELD_META]';
 
 let width = 0;
 let height = 0;
@@ -86,7 +91,7 @@ const photoCopy = {
   },
 };
 
-const fieldRecords = [
+const starterFieldRecords = [
   {
     id: 'residential',
     zone: 'Residential street',
@@ -140,6 +145,8 @@ const fieldRecords = [
   },
 ];
 
+let fieldRecords = [...starterFieldRecords];
+
 function resize() {
   const rect = canvas.getBoundingClientRect();
   const scale = window.devicePixelRatio || 1;
@@ -152,6 +159,94 @@ function resize() {
 
 function formatHour(value) {
   return `${String(value).padStart(2, '0')}:00`;
+}
+
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, (char) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;',
+  })[char]);
+}
+
+function parseFieldMeta(value) {
+  const text = String(value || '');
+  const start = text.indexOf(metaStart);
+  const end = text.indexOf(metaEnd);
+  if (start === -1 || end === -1 || end < start) return {};
+  try {
+    return JSON.parse(text.slice(start + metaStart.length, end).trim());
+  } catch {
+    return {};
+  }
+}
+
+function getScenarioFromActivity(activity, lux) {
+  if (activity === 'High' || Number(lux) >= 80) return 'event';
+  if (activity === 'Medium' || Number(lux) >= 35) return 'commute';
+  return 'quiet';
+}
+
+function getMapPosition(lat, lng) {
+  const minLat = 43.62;
+  const maxLat = 43.72;
+  const minLng = -79.43;
+  const maxLng = -79.34;
+  const x = ((Number(lng) - minLng) / (maxLng - minLng)) * 76 + 12;
+  const y = (1 - (Number(lat) - minLat) / (maxLat - minLat)) * 70 + 12;
+  return {
+    x: `${Math.min(88, Math.max(12, x)).toFixed(1)}%`,
+    y: `${Math.min(82, Math.max(12, y)).toFixed(1)}%`,
+  };
+}
+
+function noctisPointToRecord(point) {
+  const meta = parseFieldMeta(point.analysis);
+  const lux = meta.lux === '' || meta.lux == null ? null : Number(meta.lux);
+  if (!Number.isFinite(lux)) return null;
+  const activity = meta.activity || 'Unknown';
+  const position = getMapPosition(point.lat, point.lng);
+  return {
+    id: point.id,
+    zone: point.title || 'NOCTIS photo point',
+    date: meta.date || (point.created_at ? point.created_at.slice(0, 10) : 'Field'),
+    location: point.title || `${Number(point.lat).toFixed(4)}, ${Number(point.lng).toFixed(4)}`,
+    time: point.time || '',
+    lux,
+    activity,
+    weather: meta.weather || 'Not recorded',
+    photo: point.img ? 'NOCTIS photo' : 'No photo yet',
+    finding: `${activity} activity / ${point.condition || 'Unknown'} light`,
+    note: point.note || 'Imported from NOCTIS field studio.',
+    scenario: getScenarioFromActivity(activity, lux),
+    x: position.x,
+    y: position.y,
+  };
+}
+
+async function loadNoctisFieldRecords() {
+  try {
+    const response = await fetch(`${noctisSupabaseUrl}/rest/v1/light_points?select=${noctisColumns}&order=created_at.desc`, {
+      headers: {
+        apikey: noctisSupabaseKey,
+        Authorization: `Bearer ${noctisSupabaseKey}`,
+      },
+    });
+    if (!response.ok) throw new Error(`NOCTIS fetch failed: ${response.status}`);
+    const rows = await response.json();
+    const imported = rows.map(noctisPointToRecord).filter(Boolean);
+    if (imported.length) {
+      fieldRecords = imported;
+      renderMapPins();
+      renderFieldData();
+      bindMapPins();
+      selectMapRecord(fieldRecords[0].id);
+    }
+  } catch (error) {
+    console.warn('Using starter field records because NOCTIS data could not be loaded.', error);
+  }
 }
 
 function getState() {
@@ -363,7 +458,7 @@ function renderMapPins() {
     .map(
       (record, index) => `
         <button class="map-pin ${index === 0 ? 'is-active' : ''}" type="button" data-map="${record.id}" style="--x: ${record.x}; --y: ${record.y}">
-          <span>${record.zone}</span>
+          <span>${escapeHtml(record.zone)}</span>
         </button>
       `
     )
@@ -375,14 +470,14 @@ function renderFieldData() {
     .map(
       (record) => `
         <tr>
-          <td>${record.date}</td>
-          <td>${record.location}</td>
-          <td>${record.time}</td>
+          <td>${escapeHtml(record.date)}</td>
+          <td>${escapeHtml(record.location)}</td>
+          <td>${escapeHtml(record.time)}</td>
           <td>${record.lux} lux</td>
-          <td>${record.activity}</td>
-          <td>${record.weather}</td>
-          <td>${record.photo}</td>
-          <td>${record.note}</td>
+          <td>${escapeHtml(record.activity)}</td>
+          <td>${escapeHtml(record.weather)}</td>
+          <td>${escapeHtml(record.photo)}</td>
+          <td>${escapeHtml(record.note)}</td>
         </tr>
       `
     )
@@ -465,6 +560,7 @@ document.querySelectorAll('.reveal').forEach((element) => revealObserver.observe
 renderMapPins();
 renderFieldData();
 bindMapPins();
+loadNoctisFieldRecords();
 resize();
 updateReadings();
 updateScenarioButtons();
