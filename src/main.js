@@ -62,7 +62,7 @@ const scenarios = {
 const photoCopy = {
   street: {
     signal: 'Observation: empty street, high fixed brightness',
-    lux: 'Sample reading: 18 lux / low activity',
+    lux: 'Starter sample: 18 lux / low activity',
     variable: 'Question: could the base brightness be lower when activity is low?',
     explanation:
       'The photograph becomes a prompt instead of proof. It asks whether a quiet block needs the same brightness as an active one.',
@@ -70,7 +70,7 @@ const photoCopy = {
   },
   motion: {
     signal: 'Observation: crosswalks and vehicles create short bursts of demand',
-    lux: 'Sample reading: 42 lux / moderate activity',
+    lux: 'Starter sample: 42 lux / moderate activity',
     variable: 'Question: what should light do when motion enters the frame?',
     explanation:
       'Movement becomes a control signal. The system keeps the street calm when empty, then raises brightness when people or cars enter the frame.',
@@ -78,7 +78,7 @@ const photoCopy = {
   },
   windows: {
     signal: 'Observation: windows, signs, and lamps form an energy pattern',
-    lux: 'Sample reading: 96 lux / high ambient light',
+    lux: 'Starter sample: 96 lux / high ambient light',
     variable: 'Question: where does public light overlap with private light?',
     explanation:
       'The photograph becomes a map of visible electricity use, connecting the dashboard-style numbers with a real public street.',
@@ -90,10 +90,13 @@ const fieldRecords = [
   {
     id: 'residential',
     zone: 'Residential street',
+    date: 'Sample',
     location: 'Residential side street',
     time: '21:40',
     lux: 18,
     activity: 'Low',
+    weather: 'Clear / dry',
+    photo: 'Starter frame',
     finding: 'Low movement, fixed brightness',
     note:
       'Quiet sidewalk with steady streetlight brightness. Good example of a place to compare low activity against fixed illumination.',
@@ -104,10 +107,13 @@ const fieldRecords = [
   {
     id: 'transit',
     zone: 'Transit stop',
+    date: 'Sample',
     location: 'Transit stop / crosswalk',
     time: '22:10',
     lux: 42,
     activity: 'Medium',
+    weather: 'Cloudy / dry',
+    photo: 'Starter frame',
     finding: 'Short bursts of people and vehicles',
     note:
       'Intermittent movement: the stop can be quiet, then briefly active when people, buses, or cars arrive.',
@@ -118,10 +124,13 @@ const fieldRecords = [
   {
     id: 'commercial',
     zone: 'Commercial corridor',
+    date: 'Sample',
     location: 'Commercial corridor',
     time: '20:55',
     lux: 96,
     activity: 'High',
+    weather: 'Clear / reflections',
+    photo: 'Starter frame',
     finding: 'High ambient light and overlapping loads',
     note:
       'Signs, windows, storefront lighting, cars, and public lamps overlap. This is useful for comparing ambient light with street activity.',
@@ -366,10 +375,13 @@ function renderFieldData() {
     .map(
       (record) => `
         <tr>
+          <td>${record.date}</td>
           <td>${record.location}</td>
           <td>${record.time}</td>
           <td>${record.lux} lux</td>
           <td>${record.activity}</td>
+          <td>${record.weather}</td>
+          <td>${record.photo}</td>
           <td>${record.note}</td>
         </tr>
       `

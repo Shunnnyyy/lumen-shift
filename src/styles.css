@@ -1244,6 +1244,24 @@ article p {
   background: var(--ink);
 }
 
+.field-template {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1px;
+  padding: 1px;
+  background: var(--ink);
+}
+
+.field-template span {
+  flex: 1 1 120px;
+  padding: 12px 14px;
+  background: rgba(247, 247, 242, 0.96);
+  color: rgba(8, 8, 8, 0.68);
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
 .data-table__head span,
 .data-table__head strong,
 .data-table__head p {
@@ -1274,7 +1292,7 @@ article p {
 
 table {
   width: 100%;
-  min-width: 760px;
+  min-width: 1040px;
   border-collapse: collapse;
   text-align: left;
 }
