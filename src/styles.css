@@ -282,6 +282,18 @@ h1:hover {
   font-weight: 900;
 }
 
+.section-heading--compact {
+  grid-template-columns: minmax(210px, 0.62fr) minmax(360px, 1fr);
+  align-items: center;
+  padding-top: 24px;
+}
+
+.section-heading--compact h2 {
+  max-width: 760px;
+  font-size: clamp(2.8rem, 4.7vw, 4.9rem);
+  line-height: 1.02;
+}
+
 .section-heading p {
   max-width: 720px;
   color: rgba(8, 8, 8, 0.68);
