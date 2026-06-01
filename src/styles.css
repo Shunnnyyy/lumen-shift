@@ -21,6 +21,7 @@
 body {
   margin: 0;
   min-width: 320px;
+  line-height: 1.6;
   background:
     linear-gradient(var(--faint) 1px, transparent 1px),
     linear-gradient(90deg, var(--faint) 1px, transparent 1px),
@@ -157,7 +158,7 @@ h1:hover {
   max-width: 720px;
   color: rgba(8, 8, 8, 0.72);
   font-size: clamp(1.05rem, 2vw, 1.55rem);
-  line-height: 1.5;
+  line-height: 1.58;
 }
 
 .hero__meta {
@@ -278,6 +279,14 @@ h1:hover {
   font-size: clamp(2.1rem, 5vw, 5.4rem);
   line-height: 0.95;
   letter-spacing: 0;
+  font-weight: 900;
+}
+
+.section-heading p {
+  max-width: 720px;
+  color: rgba(8, 8, 8, 0.68);
+  font-size: 1rem;
+  line-height: 1.68;
 }
 
 .reveal {
@@ -578,13 +587,12 @@ article {
   background: rgba(247, 247, 242, 0.96);
   transition:
     transform 180ms ease,
-    box-shadow 180ms ease,
+    border-color 180ms ease,
     background 180ms ease;
 }
 
 article:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 22px 55px rgba(8, 8, 8, 0.13);
+  transform: translateY(-4px);
   z-index: 2;
 }
 
@@ -652,20 +660,23 @@ article span {
   display: block;
   margin-bottom: 74px;
   color: var(--muted);
-  font-size: 0.82rem;
+  font-size: 0.74rem;
   font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 article h3 {
   margin-bottom: 12px;
   color: var(--ink);
-  font-size: 1.4rem;
+  font-size: clamp(1.25rem, 2vw, 1.7rem);
+  line-height: 1.12;
 }
 
 article p {
   margin-bottom: 0;
   color: rgba(8, 8, 8, 0.68);
-  line-height: 1.55;
+  line-height: 1.68;
 }
 
 .progression-grid article:nth-child(4),
@@ -741,7 +752,7 @@ article p {
 .photo-frame p {
   margin: 0;
   color: rgba(8, 8, 8, 0.68);
-  line-height: 1.55;
+  line-height: 1.65;
 }
 
 .photo-frame:hover,
@@ -753,8 +764,8 @@ article p {
 
 .photo-frame:hover,
 .photo-frame:focus-visible {
-  transform: translateY(-8px);
-  box-shadow: 0 24px 58px rgba(8, 8, 8, 0.14);
+  transform: translateY(-4px);
+  box-shadow: 0 14px 34px rgba(8, 8, 8, 0.10);
 }
 
 .photo-placeholder {
@@ -884,7 +895,7 @@ article p {
 
 .map-reading p {
   color: rgba(8, 8, 8, 0.7);
-  line-height: 1.65;
+  line-height: 1.7;
 }
 
 .map-metrics {
@@ -964,9 +975,9 @@ article p {
 
 .jump-card:hover,
 .jump-card:focus-visible {
-  transform: translateY(-8px) rotateX(1deg);
+  transform: translateY(-5px) rotateX(1deg);
   filter: contrast(1.08);
-  box-shadow: inset 0 0 0 1px currentColor, 0 28px 70px rgba(8, 8, 8, 0.2);
+  box-shadow: inset 0 0 0 1px currentColor, 0 18px 46px rgba(8, 8, 8, 0.16);
   outline: 0;
 }
 
@@ -1175,6 +1186,61 @@ article p {
   line-height: 1.05;
 }
 
+.action-loop {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.46fr) minmax(0, 1fr);
+  gap: 1px;
+  margin-top: 1px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+}
+
+.action-loop > div,
+.action-loop ol {
+  margin: 0;
+  background: rgba(247, 247, 242, 0.96);
+}
+
+.action-loop > div {
+  padding: 22px;
+}
+
+.action-loop > div span,
+.action-loop li b {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.action-loop h3 {
+  max-width: 10ch;
+  margin: 50px 0 0;
+  font-size: clamp(1.7rem, 3vw, 3.4rem);
+  line-height: 0.98;
+}
+
+.action-loop ol {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: 0;
+  list-style: none;
+}
+
+.action-loop li {
+  min-height: 210px;
+  padding: 22px;
+  border-left: 1px solid var(--line);
+}
+
+.action-loop li span {
+  display: block;
+  margin-top: 48px;
+  color: rgba(8, 8, 8, 0.7);
+  line-height: 1.65;
+}
+
 .source-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1200,7 +1266,7 @@ article p {
   background: var(--ink);
   color: var(--paper);
   outline: 0;
-  transform: translateY(-4px);
+  transform: translateY(-3px);
 }
 
 .source-grid span {
@@ -1396,6 +1462,8 @@ tbody tr:hover td:nth-child(3) {
   .photo-link,
   .insight-panel,
   .connection-map,
+  .action-loop,
+  .action-loop ol,
   .project-jumps,
   .source-grid,
   .progression-grid,
