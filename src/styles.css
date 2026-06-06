@@ -509,6 +509,60 @@ output {
   line-height: 1.55;
 }
 
+.chatgpt-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 20px;
+  align-items: end;
+  margin-top: 22px;
+  padding: 22px 0;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--line);
+}
+
+.chatgpt-panel h3 {
+  margin: 0 0 8px;
+  font-size: clamp(1.45rem, 2.5vw, 2.2rem);
+  line-height: 1.08;
+}
+
+.chatgpt-panel p:not(.kicker) {
+  max-width: 760px;
+  margin: 0;
+  color: rgba(8, 8, 8, 0.68);
+  line-height: 1.65;
+}
+
+.chatgpt-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 1px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+}
+
+.chatgpt-actions button,
+.chatgpt-actions a {
+  min-height: 46px;
+  border: 0;
+  padding: 0 16px;
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  transition: background 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.chatgpt-actions button:hover,
+.chatgpt-actions a:hover {
+  background: var(--ink);
+  color: var(--paper);
+  transform: translateY(-2px);
+}
+
 .timeline,
 .module-grid,
 .progression-grid {
@@ -1490,6 +1544,19 @@ tbody tr:hover td:nth-child(3) {
   .progression-grid,
   .data-table__head {
     grid-template-columns: 1fr;
+  }
+
+  .chatgpt-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .chatgpt-actions {
+    justify-content: stretch;
+  }
+
+  .chatgpt-actions button,
+  .chatgpt-actions a {
+    flex: 1 1 180px;
   }
 
   .map-metrics {

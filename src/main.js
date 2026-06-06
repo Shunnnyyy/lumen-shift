@@ -29,6 +29,8 @@ const mapTime = document.querySelector('#mapTime');
 const mapActivity = document.querySelector('#mapActivity');
 const mapNote = document.querySelector('#mapNote');
 const fieldDataRows = document.querySelector('#fieldDataRows');
+const lumenLocalSummary = document.querySelector('#lumenLocalSummary');
+const lumenPromptBtn = document.querySelector('#lumenPromptBtn');
 const noctisSupabaseUrl = 'https://szmcjrgtecwzxvsszeib.supabase.co';
 const noctisSupabaseKey = 'sb_publishable_glEsWFXGRqG1c4OU51YlyA_uh7_fojn';
 const noctisColumns = 'id,title,lat,lng,area,condition,time,intensity,img,note,analysis,created_at';
@@ -42,6 +44,7 @@ let pointerX = 0.5;
 let pointerY = 0.5;
 let activeScenario = 'quiet';
 let burstId = 0;
+let activeFieldRecordId = null;
 
 const lamps = Array.from({ length: 9 }, (_, index) => ({
   x: 0.08 + index * 0.105,
@@ -274,6 +277,7 @@ function updateReadings() {
   activityLabel.textContent =
     state.flow > 72 || movementPulse > 0.65 ? 'High' : state.flow > 28 ? 'Moderate' : 'Quiet';
   insightText.textContent = buildInsight(state, load);
+  updateChatGptPanel();
 }
 
 function buildInsight(state, load) {
@@ -290,6 +294,62 @@ function buildInsight(state, load) {
   }
 
   return `Moderate activity condition: brightness rises only where movement is detected, keeping the street readable without treating the whole night as peak demand.`;
+}
+
+function getActiveFieldRecord() {
+  return fieldRecords.find((record) => record.id === activeFieldRecordId) || fieldRecords[0] || starterFieldRecords[0];
+}
+
+function buildLumenLocalSummary() {
+  const state = getState();
+  const record = getActiveFieldRecord();
+  const action =
+    state.saved >= 45 && state.flow < 35
+      ? 'a dimming or scheduling rule'
+      : state.flow > 70
+        ? 'a movement-sensitive brightness rule'
+        : 'one more comparison reading before changing the rule';
+
+  return `${record.zone}: ${record.lux} lux, ${record.activity} activity, ${formatHour(state.hour)}, ${state.adaptiveBrightness}% modeled brightness. Best next test: ${action}.`;
+}
+
+function buildLumenPrompt() {
+  const state = getState();
+  const record = getActiveFieldRecord();
+  return `Act as a supportive urban systems mentor. Help me analyze one adaptive lighting scenario for my Grade 10 project.
+
+Project context:
+I collect night photos and lux readings in NOCTIS, then use Lumen Shift to test whether dimming, scheduling, or motion-based brightness would fit the place. Keep the writing clear, practical, and curiosity-led.
+
+NOCTIS field record:
+Location / zone: ${record.zone}
+Time: ${record.time}
+Lux: ${record.lux} lux
+Activity: ${record.activity}
+Weather: ${record.weather}
+Finding: ${record.finding}
+Observation note: ${record.note}
+
+Lumen Shift scenario:
+Hour: ${formatHour(state.hour)}
+Street flow: ${state.flow}%
+Base dim level: ${state.dim}%
+Modeled brightness: ${state.adaptiveBrightness}%
+Estimated energy saved vs always-on baseline: ${state.saved}%
+
+Please write:
+1. a short observation summary;
+2. whether dimming, scheduling, shielding, or motion response fits best;
+3. one EE note about light, energy, and control;
+4. one system design note about users, context, and feedback;
+5. one industrial engineering note about cost, efficiency, and priority;
+6. one simple next field measurement I should collect.`;
+}
+
+function updateChatGptPanel() {
+  if (lumenLocalSummary) {
+    lumenLocalSummary.textContent = buildLumenLocalSummary();
+  }
 }
 
 function drawGlow(x, y, radius, alpha) {
@@ -487,6 +547,7 @@ function renderFieldData() {
 function selectMapRecord(id) {
   const reading = fieldRecords.find((record) => record.id === id);
   if (!reading) return;
+  activeFieldRecordId = id;
   document.querySelectorAll('[data-map]').forEach((item) => {
     item.classList.toggle('is-active', item.dataset.map === id);
   });
@@ -543,6 +604,18 @@ window.addEventListener('scroll', () => {
   const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
   const progress = maxScroll > 0 ? window.scrollY / maxScroll : 0;
   progressBar.style.transform = `scaleX(${Math.min(1, Math.max(0, progress))})`;
+});
+
+lumenPromptBtn.addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText(buildLumenPrompt());
+    lumenPromptBtn.textContent = 'Prompt copied';
+  } catch {
+    lumenPromptBtn.textContent = 'Copy failed';
+  }
+  setTimeout(() => {
+    lumenPromptBtn.textContent = 'Copy scenario prompt';
+  }, 1400);
 });
 
 const revealObserver = new IntersectionObserver(

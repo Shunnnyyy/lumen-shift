@@ -104,6 +104,18 @@
           <span>Current reading</span>
           <p id="insightText">The street is moderately active, so the system raises brightness above the safe base level while still saving energy against a fixed always-on baseline.</p>
         </div>
+
+        <section class="chatgpt-panel" aria-labelledby="lumen-chatgpt-title">
+          <div>
+            <p class="kicker">Work with ChatGPT</p>
+            <h3 id="lumen-chatgpt-title">Turn this scenario into a test note</h3>
+            <p id="lumenLocalSummary">Adjust the simulator or choose a NOCTIS point to generate a short lighting-response prompt.</p>
+          </div>
+          <div class="chatgpt-actions">
+            <button id="lumenPromptBtn" type="button">Copy scenario prompt</button>
+            <a href="https://noctis-lake.vercel.app/map" target="_blank" rel="noreferrer">Collect in NOCTIS</a>
+          </div>
+        </section>
       </section>
 
       <section class="story reveal" aria-labelledby="story-title">
@@ -274,24 +286,24 @@
 
         <div class="progression-grid">
           <article>
-            <span>01 / Research</span>
-            <h3>Power in Practice</h3>
-            <p>A personal research page about electricity habits, public data, and the everyday places where energy use becomes visible.</p>
+            <span>01 / Field Data</span>
+            <h3>NOCTIS</h3>
+            <p>A night photography map that collects locations, lux readings, activity labels, and field observations across Toronto.</p>
           </article>
           <article>
-            <span>02 / Dashboard</span>
+            <span>02 / Response Test</span>
+            <h3>Lumen Shift</h3>
+            <p>An interactive prototype that tests whether dimming, scheduling, shielding, or motion response fits the observed place.</p>
+          </article>
+          <article>
+            <span>03 / Cost Check</span>
             <h3>SmartEnergy</h3>
             <p>A calculator-style dashboard for exploring household usage, Ontario rates, and how timing changes cost.</p>
           </article>
           <article>
-            <span>03 / Photo Map</span>
-            <h3>NOCTIS</h3>
-            <p>A night photography map that collects locations, light conditions, and visual observations across Toronto.</p>
-          </article>
-          <article>
-            <span>04 / Prototype</span>
-            <h3>Lumen Shift</h3>
-            <p>An interactive prototype that imagines lighting as something responsive, not just permanently on.</p>
+            <span>04 / Reflection</span>
+            <h3>Power in Practice</h3>
+            <p>A personal research page that connects field evidence, public data, cost, and visible nighttime patterns.</p>
           </article>
         </div>
 
@@ -321,9 +333,9 @@
           </div>
           <ol>
             <li><b>Capture</b><span>Add the photo and lux reading in NOCTIS.</span></li>
-            <li><b>Compare</b><span>Use Power in Practice to connect the observation with cost, timing, and behavior.</span></li>
-            <li><b>Estimate</b><span>Use SmartEnergy to see how timing changes the shape of electricity demand.</span></li>
             <li><b>Respond</b><span>Use Lumen Shift to test whether dimming, scheduling, or motion response fits the place.</span></li>
+            <li><b>Estimate</b><span>Use SmartEnergy to see how timing changes the shape of electricity demand.</span></li>
+            <li><b>Reflect</b><span>Use Power in Practice to connect the observation with cost, timing, and behavior.</span></li>
           </ol>
         </div>
 
@@ -333,20 +345,20 @@
             <strong>NOCTIS</strong>
             <small>Capture field evidence</small>
           </a>
-          <a class="jump-card jump-card--archive" href="https://power-in-practice.vercel.app/" target="_blank" rel="noreferrer">
-            <span>Open research</span>
-            <strong>Power in Practice</strong>
-            <small>Compare causes and patterns</small>
+          <a class="jump-card jump-card--lumen" href="https://lumen-shift.vercel.app" target="_blank" rel="noreferrer">
+            <span>Open study</span>
+            <strong>Lumen Shift</strong>
+            <small>Respond with a prototype</small>
           </a>
           <a class="jump-card jump-card--dashboard" href="https://smart-energy-dashboard-nine.vercel.app" target="_blank" rel="noreferrer">
             <span>Open dashboard</span>
             <strong>SmartEnergy</strong>
             <small>Estimate timing and cost</small>
           </a>
-          <a class="jump-card jump-card--lumen" href="https://lumen-shift.vercel.app" target="_blank" rel="noreferrer">
-            <span>Open study</span>
-            <strong>Lumen Shift</strong>
-            <small>Respond with a prototype</small>
+          <a class="jump-card jump-card--archive" href="https://power-in-practice.vercel.app/" target="_blank" rel="noreferrer">
+            <span>Open research</span>
+            <strong>Power in Practice</strong>
+            <small>Compare causes and patterns</small>
           </a>
         </div>
       </section>
