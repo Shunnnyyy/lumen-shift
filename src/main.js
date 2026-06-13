@@ -61,6 +61,7 @@ const particles = Array.from({ length: 26 }, () => ({
 }));
 
 const sparks = [];
+const responsePulses = [];
 
 const scenarios = {
   quiet: { hour: 2, flow: 16, dim: 22, pulse: 0.2 },
@@ -382,6 +383,16 @@ function createSparkBurst(x, y) {
   burstId += 1;
 }
 
+function createResponsePulse(x = pointerX, y = pointerY, strength = 1) {
+  responsePulses.push({
+    x,
+    y,
+    age: 0,
+    life: 90,
+    strength,
+  });
+}
+
 function drawScene(time) {
   const state = getState();
   ctx.clearRect(0, 0, width, height);
@@ -479,6 +490,27 @@ function drawScene(time) {
   const cursorGlow = Math.max(0.08, movementPulse) * 0.2;
   drawGlow(pointerX * width, pointerY * height, height * 0.22, cursorGlow);
 
+  for (let index = responsePulses.length - 1; index >= 0; index -= 1) {
+    const pulse = responsePulses[index];
+    pulse.age += 1;
+    const progress = pulse.age / pulse.life;
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const radius = eased * Math.min(width, height) * 0.42 * pulse.strength;
+    const alpha = Math.max(0, 1 - progress);
+    ctx.save();
+    ctx.strokeStyle = `rgba(8, 8, 8, ${0.42 * alpha})`;
+    ctx.lineWidth = 1 + 2 * alpha;
+    ctx.beginPath();
+    ctx.arc(pulse.x * width, pulse.y * height, radius, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.strokeStyle = `rgba(95, 21, 24, ${0.28 * alpha})`;
+    ctx.beginPath();
+    ctx.arc(pulse.x * width, pulse.y * height, radius * 0.62, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.restore();
+    if (pulse.age >= pulse.life) responsePulses.splice(index, 1);
+  }
+
   movementPulse *= 0.965;
   updateReadings();
   requestAnimationFrame(drawScene);
@@ -495,6 +527,7 @@ function drawScene(time) {
 pulseButton.addEventListener('click', () => {
   movementPulse = 1;
   createSparkBurst(pointerX * width, pointerY * height);
+  createResponsePulse(pointerX, pointerY, 1.1);
 });
 
 scenarioButtons.forEach((button) => {
@@ -574,12 +607,12 @@ function renderLuxPattern() {
   }
 
   luxPatternRows.innerHTML = validRecords
-    .map((record) => {
+    .map((record, index) => {
       const lux = Number(record.lux);
       const width = Math.max(8, Math.min(100, Math.round((lux / maxLux) * 100)));
       const activity = getActivityClass(record.activity);
       return `
-        <article class="lux-pattern__row" role="listitem" style="--lux-width: ${width}%">
+        <article class="lux-pattern__row" role="listitem" style="--lux-width: ${width}%; --row-index: ${index}">
           <div>
             <strong>${escapeHtml(record.zone || record.location)}</strong>
             <span>${escapeHtml(record.time)} / ${escapeHtml(record.weather)}</span>
@@ -605,6 +638,7 @@ function selectMapRecord(id) {
   mapTime.textContent = reading.time;
   mapActivity.textContent = reading.activity;
   mapNote.textContent = reading.note;
+  createResponsePulse(parseFloat(reading.x) / 100 || 0.5, parseFloat(reading.y) / 100 || 0.5, 0.85);
   applyScenario(reading.scenario);
 }
 
@@ -645,6 +679,7 @@ canvas.addEventListener('pointerdown', (event) => {
   pointerY = (event.clientY - rect.top) / rect.height;
   movementPulse = 1;
   createSparkBurst(pointerX * width, pointerY * height);
+  createResponsePulse(pointerX, pointerY, 0.95);
 });
 
 window.addEventListener('resize', resize);

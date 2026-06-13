@@ -1536,6 +1536,8 @@ article p {
   width: var(--lux-width);
   height: 100%;
   background: var(--ink);
+  animation: lux-current 3.8s ease-in-out infinite;
+  animation-delay: calc(var(--row-index, 0) * 120ms);
   transition: width 420ms ease;
 }
 
@@ -1584,6 +1586,16 @@ article p {
   margin: 0;
   padding: 18px;
   color: rgba(8, 8, 8, 0.62);
+}
+
+@keyframes lux-current {
+  0%, 100% {
+    filter: none;
+  }
+
+  50% {
+    filter: drop-shadow(0 0 8px rgba(8, 8, 8, 0.22));
+  }
 }
 
 .data-table__head span,
@@ -1679,6 +1691,13 @@ tbody tr:hover td:nth-child(3) {
   }
   68% {
     text-shadow: 2px 0 rgba(8, 8, 8, 0.32), -2px 0 rgba(95, 21, 24, 0.48);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lux-pattern__track i {
+    animation: none;
+    transition: none;
   }
 }
 
