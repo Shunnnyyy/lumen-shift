@@ -1410,6 +1410,7 @@ article p {
   margin-top: 1px;
   border: 1px solid var(--ink);
   background: rgba(247, 247, 242, 0.96);
+  scroll-margin-top: 96px;
 }
 
 .data-table__head {
@@ -1436,6 +1437,153 @@ article p {
   font-size: 0.72rem;
   font-weight: 900;
   text-transform: uppercase;
+}
+
+.lux-pattern {
+  display: grid;
+  gap: 1px;
+  border-top: 1px solid var(--ink);
+  background: var(--ink);
+}
+
+.lux-pattern__head,
+.lux-pattern__rows {
+  background: rgba(247, 247, 242, 0.96);
+}
+
+.lux-pattern__head {
+  display: grid;
+  grid-template-columns: minmax(170px, 0.5fr) minmax(260px, 0.7fr) minmax(0, 1fr);
+  gap: 1px;
+  padding: 18px;
+  background: var(--ink);
+}
+
+.lux-pattern__head > * {
+  margin: 0;
+  padding: 0;
+  background: rgba(247, 247, 242, 0.96);
+}
+
+.lux-pattern__head span {
+  padding: 18px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.lux-pattern__head strong {
+  display: block;
+  padding: 18px;
+  font-size: clamp(1.2rem, 2vw, 1.9rem);
+  line-height: 1.05;
+}
+
+.lux-pattern__head p {
+  padding: 18px;
+  color: rgba(8, 8, 8, 0.68);
+  line-height: 1.55;
+}
+
+.lux-pattern__rows {
+  display: block;
+}
+
+.lux-pattern__row {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.56fr) minmax(170px, 1fr) minmax(130px, 0.38fr);
+  gap: 18px;
+  align-items: center;
+  min-height: 92px;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.lux-pattern__row:last-child {
+  border-bottom: 0;
+}
+
+.lux-pattern__row strong,
+.lux-pattern__row span,
+.lux-pattern__row p {
+  margin: 0;
+}
+
+.lux-pattern__row strong {
+  display: block;
+  color: var(--ink);
+}
+
+.lux-pattern__row span {
+  display: block;
+  margin-top: 5px;
+  color: rgba(8, 8, 8, 0.56);
+  font-family: "Courier New", monospace;
+  font-size: 0.74rem;
+}
+
+.lux-pattern__track {
+  height: 12px;
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(90deg, transparent 0 24%, rgba(8, 8, 8, 0.1) 24% 25%, transparent 25% 54%, rgba(8, 8, 8, 0.1) 54% 55%, transparent 55% 84%, rgba(8, 8, 8, 0.1) 84% 85%, transparent 85% 100%),
+    rgba(8, 8, 8, 0.04);
+}
+
+.lux-pattern__track i {
+  display: block;
+  width: var(--lux-width);
+  height: 100%;
+  background: var(--ink);
+  transition: width 420ms ease;
+}
+
+.lux-pattern__row:hover .lux-pattern__track i {
+  background: var(--accent);
+}
+
+.lux-pattern__row p {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.lux-pattern__row p b {
+  font-size: 0.95rem;
+}
+
+.activity-chip {
+  border: 1px solid var(--line);
+  padding: 4px 7px;
+  background: rgba(247, 247, 242, 0.86);
+  font-family: "Courier New", monospace;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.activity-chip--high {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.activity-chip--medium {
+  border-color: rgba(8, 8, 8, 0.42);
+}
+
+.activity-chip--low {
+  color: rgba(8, 8, 8, 0.62);
+}
+
+.lux-pattern__empty {
+  margin: 0;
+  padding: 18px;
+  color: rgba(8, 8, 8, 0.62);
 }
 
 .data-table__head span,
@@ -1597,6 +1745,15 @@ tbody tr:hover td:nth-child(3) {
   .progression-grid,
   .data-table__head {
     grid-template-columns: 1fr;
+  }
+
+  .lux-pattern__head,
+  .lux-pattern__row {
+    grid-template-columns: 1fr;
+  }
+
+  .lux-pattern__row p {
+    justify-content: flex-start;
   }
 
   .chatgpt-panel {

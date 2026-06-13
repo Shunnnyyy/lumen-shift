@@ -29,6 +29,8 @@ const mapTime = document.querySelector('#mapTime');
 const mapActivity = document.querySelector('#mapActivity');
 const mapNote = document.querySelector('#mapNote');
 const fieldDataRows = document.querySelector('#fieldDataRows');
+const luxPatternRows = document.querySelector('#luxPatternRows');
+const luxPatternSummary = document.querySelector('#luxPatternSummary');
 const lumenLocalSummary = document.querySelector('#lumenLocalSummary');
 const lumenPromptBtn = document.querySelector('#lumenPromptBtn');
 const noctisSupabaseUrl = 'https://szmcjrgtecwzxvsszeib.supabase.co';
@@ -541,6 +543,52 @@ function renderFieldData() {
         </tr>
       `
     )
+    .join('');
+
+  renderLuxPattern();
+}
+
+function getActivityClass(activity) {
+  const level = String(activity || '').toLowerCase();
+  if (level.includes('high')) return 'high';
+  if (level.includes('medium') || level.includes('moderate')) return 'medium';
+  if (level.includes('low')) return 'low';
+  return 'unknown';
+}
+
+function renderLuxPattern() {
+  if (!luxPatternRows) return;
+  const validRecords = fieldRecords.filter((record) => Number.isFinite(Number(record.lux)));
+  if (!validRecords.length) {
+    luxPatternRows.innerHTML = '<p class="lux-pattern__empty">Add one lux reading to see the field pattern.</p>';
+    if (luxPatternSummary) luxPatternSummary.textContent = 'No lux readings yet. Add values in NOCTIS first.';
+    return;
+  }
+
+  const maxLux = Math.max(...validRecords.map((record) => Number(record.lux)), 100);
+  const averageLux = Math.round(validRecords.reduce((sum, record) => sum + Number(record.lux), 0) / validRecords.length);
+  const lowActivityBright = validRecords.filter((record) => getActivityClass(record.activity) === 'low' && Number(record.lux) >= 55).length;
+
+  if (luxPatternSummary) {
+    luxPatternSummary.textContent = `${validRecords.length} lux-tagged point${validRecords.length === 1 ? '' : 's'} / ${averageLux} lux average / ${lowActivityBright} bright low-activity flag${lowActivityBright === 1 ? '' : 's'}.`;
+  }
+
+  luxPatternRows.innerHTML = validRecords
+    .map((record) => {
+      const lux = Number(record.lux);
+      const width = Math.max(8, Math.min(100, Math.round((lux / maxLux) * 100)));
+      const activity = getActivityClass(record.activity);
+      return `
+        <article class="lux-pattern__row" role="listitem" style="--lux-width: ${width}%">
+          <div>
+            <strong>${escapeHtml(record.zone || record.location)}</strong>
+            <span>${escapeHtml(record.time)} / ${escapeHtml(record.weather)}</span>
+          </div>
+          <div class="lux-pattern__track" aria-hidden="true"><i></i></div>
+          <p><b>${lux} lux</b><span class="activity-chip activity-chip--${activity}">${escapeHtml(record.activity || 'Unknown')}</span></p>
+        </article>
+      `;
+    })
     .join('');
 }
 
