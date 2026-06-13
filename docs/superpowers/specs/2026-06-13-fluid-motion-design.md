@@ -48,7 +48,7 @@ Add fluid scheduling behavior:
 - the dashboard can show a small "load shift" strip that explains what moved from peak to off-peak;
 - motion should help users understand cost and timing, not decorate the page.
 
-This site should connect most strongly to Industrial Engineering and Systems Design Engineering.
+This site should connect most strongly to scheduling, priority, and real-life feedback loops.
 
 ### Power in Practice
 

@@ -343,9 +343,9 @@ Estimated energy saved vs always-on baseline: ${state.saved}%
 Please write:
 1. a short observation summary;
 2. whether dimming, scheduling, shielding, or motion response fits best;
-3. one EE note about light, energy, and control;
-4. one system design note about users, context, and feedback;
-5. one industrial engineering note about cost, efficiency, and priority;
+3. one note about light level, energy use, and control;
+4. one note about people, context, and feedback;
+5. one note about cost, efficiency, and priority;
 6. one simple next field measurement I should collect.`;
 }
 
