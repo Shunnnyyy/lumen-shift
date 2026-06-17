@@ -19,6 +19,7 @@
 }
 
 body {
+  position: relative;
   margin: 0;
   min-width: 320px;
   line-height: 1.6;
@@ -28,6 +29,20 @@ body {
     linear-gradient(180deg, rgba(255, 255, 255, 0.85), rgba(247, 247, 242, 0.94)),
     var(--paper);
   background-size: 34px 34px, 34px 34px, 100% 100%, 100% 100%;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: -12% -8%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 18% 16%, rgba(8, 8, 8, 0.075), transparent 24%),
+    radial-gradient(ellipse at 82% 30%, rgba(95, 21, 24, 0.085), transparent 26%),
+    repeating-conic-gradient(from 12deg at 50% 42%, rgba(8, 8, 8, 0.045) 0deg 1.2deg, transparent 1.2deg 9deg);
+  opacity: 0.58;
+  animation: lumen-field-drift 18s ease-in-out infinite alternate;
 }
 
 a {
@@ -113,12 +128,31 @@ button {
 }
 
 .hero {
+  position: relative;
+  overflow: hidden;
   min-height: calc(74vh - 60px);
   display: grid;
   align-items: end;
   gap: 32px;
   padding: 48px 0 30px;
   border-bottom: 1px solid var(--line);
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  left: min(44vw, 560px);
+  right: 4%;
+  bottom: 18%;
+  height: 180px;
+  pointer-events: none;
+  border: 1px solid rgba(8, 8, 8, 0.12);
+  border-left: 0;
+  border-bottom: 0;
+  border-radius: 58% 42% 62% 38%;
+  transform: rotate(-7deg);
+  opacity: 0.56;
+  animation: lumen-orbit-bend 9s ease-in-out infinite alternate;
 }
 
 .hero__copy {
@@ -387,6 +421,20 @@ h1:hover {
   min-height: 560px;
   border: 1px solid var(--ink);
   background: #f4f4ef;
+}
+
+.stage::after {
+  content: "";
+  position: absolute;
+  left: -25%;
+  right: -25%;
+  top: 12%;
+  height: 2px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(8, 8, 8, 0.72), transparent);
+  opacity: 0.18;
+  transform: translateX(-38%) rotate(-3deg);
+  animation: lumen-scheduler-sweep 5.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
 }
 
 canvas {
@@ -1056,6 +1104,8 @@ article p {
 }
 
 .project-jumps {
+  position: relative;
+  overflow: hidden;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1px;
@@ -1064,8 +1114,35 @@ article p {
   background: var(--ink);
 }
 
+.project-jumps::before {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  z-index: 0;
+  pointer-events: none;
+  border-top: 1px solid rgba(247, 247, 242, 0.26);
+  border-bottom: 1px solid rgba(247, 247, 242, 0.14);
+  transform: skewY(-2deg);
+  opacity: 0.64;
+}
+
+.project-jumps::after {
+  content: "";
+  position: absolute;
+  left: -20%;
+  top: 50%;
+  z-index: 1;
+  width: 22%;
+  height: 2px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--paper), transparent);
+  opacity: 0.34;
+  animation: lumen-link-current 6.4s ease-in-out infinite;
+}
+
 .jump-card {
   position: relative;
+  z-index: 2;
   min-height: 250px;
   display: grid;
   align-content: space-between;
@@ -1826,5 +1903,62 @@ tbody tr:hover td:nth-child(3) {
 
   article span {
     margin-bottom: 44px;
+  }
+}
+
+@keyframes lumen-field-drift {
+  0% {
+    transform: translate3d(-1.5%, -1%, 0) rotate(-1deg) scale(1);
+  }
+
+  100% {
+    transform: translate3d(1.5%, 1%, 0) rotate(1deg) scale(1.04);
+  }
+}
+
+@keyframes lumen-orbit-bend {
+  0% {
+    border-radius: 58% 42% 62% 38%;
+    transform: rotate(-7deg) translateY(0);
+  }
+
+  100% {
+    border-radius: 42% 58% 38% 62%;
+    transform: rotate(-3deg) translateY(-12px);
+  }
+}
+
+@keyframes lumen-scheduler-sweep {
+  0% {
+    transform: translateX(-38%) rotate(-3deg);
+  }
+
+  55% {
+    transform: translateX(42%) rotate(2deg);
+  }
+
+  100% {
+    transform: translateX(42%) rotate(2deg);
+  }
+}
+
+@keyframes lumen-link-current {
+  0%,
+  12% {
+    transform: translateX(0) skewX(-18deg);
+  }
+
+  70%,
+  100% {
+    transform: translateX(560%) skewX(-18deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  .hero::after,
+  .stage::after,
+  .project-jumps::after {
+    animation: none;
   }
 }
