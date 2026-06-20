@@ -52,6 +52,13 @@ a {
   text-decoration: none;
 }
 
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--wine);
+  outline-offset: 3px;
+}
+
 button,
 input {
   font: inherit;
@@ -247,7 +254,7 @@ h1:hover {
 
 .field-note-strip span {
   display: inline-block;
-  font-family: "Courier New", monospace;
+  font-family: "IBM Plex Mono", "Courier New", monospace;
   font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.18em;
@@ -1710,6 +1717,18 @@ table {
   min-width: 1040px;
   border-collapse: collapse;
   text-align: left;
+}
+
+th,
+.kicker,
+.stats span,
+.controls span,
+.chatgpt-actions button,
+.chatgpt-actions a,
+.jump-card span,
+.source-grid a span,
+.data-table__head span {
+  font-family: "IBM Plex Mono", "Courier New", monospace;
 }
 
 th,
